@@ -35,19 +35,21 @@ public class GameRepository {
     @Inject private DBGame_UserRepository dbGame_userRepository;
     @Inject private DBUserRepository dbUserRepository;
 
-    /*dbUserRepository.persist(makeUser("Chris"));
-    dbUserRepository.persist(makeUser("Arno"));
-    dbUserRepository.persist(makeUser("Andre"));
-    dbUserRepository.persist(makeUser("Dihan"));
-    dbUserRepository.persist(makeUser("Eduan"));
-    dbUserRepository.persist(makeUser("Albert"));
+    public void insertTestData(){
+        dbUserRepository.persist(makeUser("Chris"));
+        dbUserRepository.persist(makeUser("Arno"));
+        dbUserRepository.persist(makeUser("Andre"));
+        dbUserRepository.persist(makeUser("Dihan"));
+        dbUserRepository.persist(makeUser("Eduan"));
+        dbUserRepository.persist(makeUser("Albert"));
+    }
 
     private User makeUser(String username){
         User user = new User();
         user.setUser_name(username);
         user.setPassword("1000:8efcc67e8c7863b679da5d609a533ba0dd2b5a1a31ffc5fc:9820dd47727ca04fd447051804f9fde38c7f7de594290c16"); //A hash for a
         return user;
-    }*/
+    }
 
     public void commitGame(String gamename, List<String> users, List<String> hands){
         Game newGame = new Game();

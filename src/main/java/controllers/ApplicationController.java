@@ -33,8 +33,7 @@ public class ApplicationController {
 
     private final String USERNAME = "username";
 
-    @Inject
-    GameRepository gameRepository;
+    @Inject GameRepository gameRepository;
     @Inject private GameService gameService;
     @Inject private Router router;
 
@@ -75,6 +74,11 @@ public class ApplicationController {
         Result res = Results.html();
         res.render("rows", gameRepository.getAllGamesInRows());
         return res;
+    }
+
+    public Result test(){
+        gameRepository.insertTestData();
+        return Results.redirect("/");
     }
 
 }

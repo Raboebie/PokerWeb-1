@@ -44,7 +44,6 @@ public class GameService {
         List<Integer> handValues = new ArrayList<>();
         for(Hand hand : hands){
             handValues.add(deck.handStrength(deck.evaluation(hand)));
-            System.out.println(hand);
         }
 
         int min = 90;
