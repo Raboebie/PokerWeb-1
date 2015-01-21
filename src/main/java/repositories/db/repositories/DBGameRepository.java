@@ -22,6 +22,6 @@ public class DBGameRepository extends DBBaseRepository<Game>{
     }
 
     public List<Game> getDistinctGamesOrdered(){
-        return getEntityManager().createQuery("SELECT DISTINCT g FROM Game g ORDER BY game_date").getResultList();
+        return getEntityManager().createQuery("SELECT DISTINCT g FROM Game g ORDER BY game_date DESC").getResultList();
     }
 }

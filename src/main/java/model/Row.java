@@ -4,6 +4,7 @@ package model;
  * Created by Chris on 1/21/2015.
  */
 public class Row{
+    int number;
     String game;
     String user0;
     String user1;
@@ -11,13 +12,22 @@ public class Row{
     String user3;
     String date;
 
-    public Row(String game, String user0, String user1, String user2, String user3, String date) {
+    public Row(int number, String game, String user0, String user1, String user2, String user3, String date) {
+        this.number = number;
         this.game = game;
         this.user0 = user0;
         this.user1 = user1;
         this.user2 = user2;
         this.user3 = user3;
         this.date = date;
+    }
+
+    public int getNumber() {
+        return number;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
     }
 
     public String getGame() {

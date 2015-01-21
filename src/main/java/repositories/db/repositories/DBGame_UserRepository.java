@@ -25,18 +25,19 @@ public class DBGame_UserRepository extends DBBaseRepository<Game_User>{
         List<Row> rows = new ArrayList<>();
         List<Game> games = dbGameRepository.getDistinctGamesOrdered();
 
-        for(Game game : games){
-            List<Game_User> game_users = getEntityManager().createQuery("SELECT g FROM Game_User g WHERE game_name = :game_name").setParameter("game_name", game.getGame_name()).getResultList();
+        int id = 1;
 
-            String gameName = game.getGame_name();
-            Date gameDate = game.getGame_date();
+        for(Game game : games){
+            List<Game_User> game_users = getEntityManager().createQuery("SELECT g FROM Game_User g WHERE game_id = :game_id").setParameter("game_id", game.getGame_id()).getResultList();
+
             List<String> usernames = new ArrayList<>();
             for(Game_User game_user : game_users){
                 usernames.add(game_user.getUser().getUser_name());
             }
 
             DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-            rows.add(new Row(gameName, usernames.get(0), usernames.get(1), usernames.get(2), usernames.get(3), df.format(gameDate)));
+            //Auto generated ID doesn't work
+            rows.add(new Row(id++, game.getGame_name(), usernames.get(0), usernames.get(1), usernames.get(2), usernames.get(3), df.format(game.getGame_date())));
         }
 
         return rows;

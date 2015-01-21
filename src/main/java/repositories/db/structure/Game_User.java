@@ -17,7 +17,7 @@ public class Game_User  implements Serializable{
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "game_name", referencedColumnName = "game_name", insertable = false, updatable = false)
+    @JoinColumn(name = "game_id", referencedColumnName = "game_id", insertable = false, updatable = false)
     private Game game;
 
     @Column

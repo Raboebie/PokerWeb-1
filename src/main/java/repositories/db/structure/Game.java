@@ -12,7 +12,9 @@ import java.util.List;
 @Entity
 public class Game {
     @Id
-    @Size(max=100)
+    @GeneratedValue
+    private int game_id;
+
     private String game_name;
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -27,6 +29,14 @@ public class Game {
 
     public void setGame_name(String game_name) {
         this.game_name = game_name;
+    }
+
+    public int getGame_id() {
+        return game_id;
+    }
+
+    public void setGame_id(int game_id) {
+        this.game_id = game_id;
     }
 
     public List<Game_User> getGameUserList() {

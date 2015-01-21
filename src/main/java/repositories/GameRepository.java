@@ -57,7 +57,7 @@ public class GameRepository {
 
         for(int i = 0; i < users.size(); i++) {
             Game_User_ID game_user_id = new Game_User_ID();
-            game_user_id.setGame_name(gamename);
+            game_user_id.setGame_id(newGame.getGame_id());
             game_user_id.setUser_name(users.get(i));
 
             Game_User game_user = new Game_User();

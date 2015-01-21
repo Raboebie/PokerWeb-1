@@ -9,7 +9,7 @@ import java.io.Serializable;
  */
 public class Game_User_ID implements Serializable {
     private String user_name;
-    private String game_name;
+    private int game_id;
 
     public String getUser_name() {
         return user_name;
@@ -19,11 +19,11 @@ public class Game_User_ID implements Serializable {
         this.user_name = user_name;
     }
 
-    public String getGame_name() {
-        return game_name;
+    public int getGame_id() {
+        return game_id;
     }
 
-    public void setGame_name(String game_name) {
-        this.game_name = game_name;
+    public void setGame_id(int game_id) {
+        this.game_id = game_id;
     }
 }
