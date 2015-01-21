@@ -2,6 +2,7 @@ package repositories.db.structure;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -12,6 +13,9 @@ public class Game {
     @Id
     @Size(max=100)
     private String game_name;
+
+    @Temporal(TemporalType.DATE)
+    private Date game_date;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "game")
     private List<Game_User> gameUserList;
@@ -30,5 +34,13 @@ public class Game {
 
     public void setGameUserList(List<Game_User> gameUserList) {
         this.gameUserList = gameUserList;
+    }
+
+    public Date getGame_date() {
+        return game_date;
+    }
+
+    public void setGame_date(Date game_date) {
+        this.game_date = game_date;
     }
 }

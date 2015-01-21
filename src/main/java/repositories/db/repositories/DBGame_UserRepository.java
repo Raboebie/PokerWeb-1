@@ -5,7 +5,6 @@ import com.google.inject.Singleton;
 import model.Row;
 import repositories.db.structure.Game;
 import repositories.db.structure.Game_User;
-import repositories.db.structure.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +19,7 @@ public class DBGame_UserRepository extends DBBaseRepository<Game_User>{
     public List<Row> getAllGamesInRows(){
         List<Row> rows = new ArrayList<>();
         //List<Game_User> game_users = getEntityManager().createQuery("SELECT g FROM Game_User g").getResultList();
-        List<Game> games = dbGameRepository.getDistinctGames();
+        List<Game> games = dbGameRepository.getDistinctGamesOrdered();
 
         for(Game game : games){
             List<Game_User> game_users = getEntityManager().createQuery("SELECT g FROM Game_User g WHERE game_name = :game_name").setParameter("game_name", game.getGame_name()).getResultList();

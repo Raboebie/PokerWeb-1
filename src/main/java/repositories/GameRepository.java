@@ -12,12 +12,16 @@ import repositories.db.structure.Game_User_ID;
 import repositories.db.structure.User;
 
 import java.math.BigInteger;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -31,9 +35,24 @@ public class GameRepository {
     @Inject private DBGame_UserRepository dbGame_userRepository;
     @Inject private DBUserRepository dbUserRepository;
 
+    /*dbUserRepository.persist(makeUser("Chris"));
+    dbUserRepository.persist(makeUser("Arno"));
+    dbUserRepository.persist(makeUser("Andre"));
+    dbUserRepository.persist(makeUser("Dihan"));
+    dbUserRepository.persist(makeUser("Eduan"));
+    dbUserRepository.persist(makeUser("Albert"));
+
+    private User makeUser(String username){
+        User user = new User();
+        user.setUser_name(username);
+        user.setPassword("1000:8efcc67e8c7863b679da5d609a533ba0dd2b5a1a31ffc5fc:9820dd47727ca04fd447051804f9fde38c7f7de594290c16"); //A hash for a
+        return user;
+    }*/
+
     public void commitGame(String gamename, List<String> users, List<String> hands){
         Game newGame = new Game();
         newGame.setGame_name(gamename);
+        newGame.setGame_date(new Date());
         dbGameRepository.persist(newGame);
 
         for(int i = 0; i < users.size(); i++) {
