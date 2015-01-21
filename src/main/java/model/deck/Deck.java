@@ -46,15 +46,28 @@ public class Deck {
         String evaluation = "";
 
         if(HandEvaluator.isStraightFlush(hand)) evaluation = "Straight Flush";
-        else if(HandEvaluator.isStraight(hand)) evaluation = "Straight";
-        else if(HandEvaluator.isFlush(hand)) evaluation = "Flush";
-        else if(HandEvaluator.isFullHouse(hand)) evaluation = "Full House";
         else if(HandEvaluator.isFourOfAKind(hand)) evaluation = "Four Of A Kind";
-        else if(HandEvaluator.isTwoPair(hand)) evaluation = "Two Pair";
+        else if(HandEvaluator.isFullHouse(hand)) evaluation = "Full House";
+        else if(HandEvaluator.isFlush(hand)) evaluation = "Flush";
+        else if(HandEvaluator.isStraight(hand)) evaluation = "Straight";
         else if(HandEvaluator.isThreeOfAKind(hand)) evaluation = "Three Of A Kind";
+        else if(HandEvaluator.isTwoPair(hand)) evaluation = "Two Pair";
         else if(HandEvaluator.isOnePair(hand)) evaluation = "One Pair";
         else evaluation = "High Card";
 
         return evaluation;
+    }
+
+    public int handStrength(String evaluation){
+        if(evaluation.equals("Straight Flush")) return 0;
+        else if(evaluation.equals("Four Of A Kind")) return 1;
+        else if(evaluation.equals("Full House")) return 2;
+        else if(evaluation.equals("Flush")) return 3;
+        else if(evaluation.equals("Straight")) return 4;
+        else if(evaluation.equals("Three Of A Kind")) return 5;
+        else if(evaluation.equals("Two Pair")) return 6;
+        else if(evaluation.equals("One Pair")) return 7;
+        else if(evaluation.equals("High Card")) return 8;
+        else return -1;
     }
 }

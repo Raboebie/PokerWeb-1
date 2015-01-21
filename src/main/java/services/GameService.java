@@ -2,6 +2,7 @@ package services;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import model.cards.Card;
 import model.cards.Hand;
 import model.deck.Deck;
 import ninja.Context;
@@ -39,23 +40,58 @@ public class GameService {
         return deck.evaluation(hand);
     }
 
+    public String determineWinner(List<Hand> hands){
+        List<Integer> handValues = new ArrayList<>();
+        for(Hand hand : hands){
+            handValues.add(deck.handStrength(deck.evaluation(hand)));
+            System.out.println(hand);
+        }
+
+        int min = 90;
+        for(Integer value : handValues){
+            if(value < min) min = value;
+        }
+
+        int count = 0;
+        for(Integer value: handValues){
+            if(value == min) count++;
+        }
+
+        if(count == 1){
+            return "Winner: " + insertUsers.get(handValues.indexOf(min));
+        }
+        else{
+            String temp = "";
+            for(int i = 0; i < handValues.size(); i++){
+                if(handValues.get(i) == min) temp += insertUsers.get(i) + "; ";
+            }
+            return "Tie Between: " + temp;
+        }
+    }
+
     public void resetDeckAndCommit(Result res){
+        List<Hand> hand = new ArrayList<>();
+        for(String h : insertHands){
+            hand.add(new Hand(h));
+        }
+
         //Game doesn't exist
         if(!gameRepository.gameExists(insertGameName)){
             gameRepository.commitGame(insertGameName, insertUsers, insertHands);
 
+            res.render("Message", "Game Completed: " + determineWinner(hand));
+
             insertUsers.clear();
             insertHands.clear();
             insertGameName = "";
-
-            res.render("Message", "Game Completed");
         }
         //Game exists, throw away
         else{
+            res.render("Message", "Game Thrown Away - Not Unique Name: " + determineWinner(hand));
+
             insertUsers.clear();
             insertHands.clear();
             insertGameName = "";
-            res.render("Message", "Game Thrown Away - Not Unique Name");
         }
 
         deck.resetDeck();
@@ -65,7 +101,7 @@ public class GameService {
         Hand dealtHand = dealHand();
         insertGameName = context.getParameter("gamename");
         insertUsers.add(context.getParameter("username"));
-        insertHands.add(dealHand().toString());
+        insertHands.add(dealtHand.toString());
 
 
         res.render("card0", dealtHand.getCards().get(0).toString());

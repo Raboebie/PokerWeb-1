@@ -12,6 +12,11 @@ public class Hand {
 
     List<Card> cards = new ArrayList<Card>();
 
+    public Hand(String hand){
+        this(hand.charAt(0) + "" + hand.charAt(1) + "", hand.charAt(3) + "" + hand.charAt(4) + "", hand.charAt(6) + "" + hand.charAt(7) + "",
+                hand.charAt(9) + "" + hand.charAt(10) + "", hand.charAt(12) + "" + hand.charAt(13) + "");
+    }
+
     public Hand(String c1, String c2, String c3, String c4, String c5) {
         cards.add(new Card(c1));
         cards.add(new Card(c2));
