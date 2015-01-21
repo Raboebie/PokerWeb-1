@@ -1,0 +1,46 @@
+<#import "../layout/defaultLayout.ftl.html" as layout>
+    <@layout.myLayout "Home page">
+
+    <h1>Play!</h1>
+
+
+        <div class="well carousel-search hidden-sm">
+            <input type="text" id="game_name" class="form-control" placeholder="Game Name" style="width:196px;display:inline">
+            <div class="btn-group"> <a class="btn btn-default dropdown-toggle btn-select" data-toggle="dropdown" href="#">Select Player 1<span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <#list users as user><li><a href="">${user}</a></li></#list>
+                </ul>
+            </div>
+            <div class="btn-group"> <a class="btn btn-default dropdown-toggle btn-select1" data-toggle="dropdown" href="#">Select Player 2<span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <#list users as user><li><a href="">${user}</a></li></#list>
+                </ul>
+            </div>
+            <div class="btn-group"> <a class="btn btn-default dropdown-toggle btn-select2" data-toggle="dropdown" href="#">Select Player 3<span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <#list users as user><li><a href="">${user}</a></li></#list>
+                </ul>
+            </div>
+            <div class="btn-group"> <a class="btn btn-default dropdown-toggle btn-select3" data-toggle="dropdown" href="#">Select Player 4<span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <#list users as user><li><a href="">${user}</a></li></#list>
+                </ul>
+            </div>
+            <div class="btn-group">
+                <button type="button" id="btnPlay" class="btn btn-primary">Play</button>
+            </div>
+        </div>
+
+
+    <div id="cardcontainer"></div>
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $("#actions").attr("href", "/logout");
+            $("#actions").html("Logout");
+        });
+    </script>
+
+    <script type="text/javascript" src="/assets/js/play.js"></script>
+
+</@layout.myLayout>

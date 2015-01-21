@@ -1,0 +1,28 @@
+<#import "../layout/defaultLayout.ftl.html" as layout>
+    <@layout.myLayout "Home page">
+
+    <h1>View Games</h1>
+    <br>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Game Name</th>
+                <th>User #0</th>
+                <th>User #1</th>
+                <th>User #2</th>
+                <th>User #3</th>
+            </tr>
+        </thead>
+        <tbody>
+            <#list rows as row>
+                <tr>
+                    <td>${row.game}</td>
+                    <td>${row.user0}</td>
+                    <td>${row.user1}</td>
+                    <td>${row.user2}</td>
+                    <td>${row.user0}</td>
+                </tr>
+            </#list>
+        </tbody>
+    </table>
+</@layout.myLayout>

@@ -1,0 +1,100 @@
+/**
+ * Copyright (C) 2013 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package controllers;
+
+import Filters.LoggedInFilter;
+import Filters.SecureFilter;
+import com.google.inject.Inject;
+import ninja.*;
+
+import com.google.inject.Singleton;
+import repositories.GameRepository;
+import services.GameService;
+
+import java.util.ArrayList;
+import java.util.List;
+
+
+@Singleton
+public class ApplicationController {
+
+    private final String USERNAME = "username";
+
+    @Inject
+    GameRepository gameRepository;
+    @Inject private GameService gameService;
+    @Inject private Router router;
+
+    @FilterWith(LoggedInFilter.class)
+    public Result index(Context context) {
+        return Results.html();
+    }
+
+    @FilterWith(LoggedInFilter.class)
+    public Result reg(Context context){
+        return Results.html();
+    }
+
+    @FilterWith(SecureFilter.class)
+    public Result play(Context context){
+        Result res = Results.html();
+        List<String> users = gameRepository.getAllUserNames();
+        res.render("users", users);
+        return res;
+    }
+
+    @FilterWith(SecureFilter.class)
+    public Result cards(Context context){
+        Result res = Results.html();
+        gameService.populateCards(context, res);
+        return res;
+    }
+
+    @FilterWith(SecureFilter.class)
+    public Result resetDeckAndCommit(){
+        Result res = Results.html();
+        gameService.resetDeckAndCommit(res);
+        return res;
+    }
+
+    @FilterWith(SecureFilter.class)
+    public Result viewgames(){
+        Result res = Results.html();
+        Row r = new Row("ASD", "ASD1", "ASD2", "ASD3", "ASD4");
+        List<Row> rows = new ArrayList<>();
+        rows.add(r);
+        res.render("rows", rows);
+        return res;
+    }
+}
+
+class Row{
+    //TODO: Rows
+    private char[] game;
+    private char[] user0;
+    private char[] user1;
+    private char[] user2;
+    private char[] user3;
+
+    public Row(String game, String user0, String user1, String user2, String user3) {
+        this.game = game.toCharArray();
+        this.user0 = user0.toCharArray();
+        this.user1 = user1.toCharArray();
+        this.user2 = user2.toCharArray();
+        this.user3 = user3.toCharArray();
+    }
+}
