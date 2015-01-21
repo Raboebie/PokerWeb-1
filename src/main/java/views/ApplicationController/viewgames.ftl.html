@@ -8,6 +8,7 @@
             <tr>
                 <th>Game #</th>
                 <th>Game Name</th>
+                <th>Winner</th>
                 <th>User #0</th>
                 <th>User #1</th>
                 <th>User #2</th>
@@ -20,6 +21,7 @@
                 <tr>
                     <td>${row.number!"Error"}</td>
                     <td>${row.game!"Error"}</td>
+                    <td>${row.winner!"Error"}</td>
                     <td>${row.user0!"Error"}</td>
                     <td>${row.user1!"Error"}</td>
                     <td>${row.user2!"Error"}</td>
@@ -29,4 +31,11 @@
             </#list>
         </tbody>
     </table>
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $("#actions").attr("href", "/logout");
+            $("#actions").html("Logout");
+        });
+    </script>
 </@layout.myLayout>

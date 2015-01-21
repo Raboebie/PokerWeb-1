@@ -40,7 +40,7 @@ public class GameService {
         return deck.evaluation(hand);
     }
 
-    public String determineWinner(List<Hand> hands){
+    public String determineWinner(List<Hand> hands, List<String> users){
         List<Integer> handValues = new ArrayList<>();
         for(Hand hand : hands){
             handValues.add(deck.handStrength(deck.evaluation(hand)));
@@ -57,12 +57,12 @@ public class GameService {
         }
 
         if(count == 1){
-            return "Winner: " + insertUsers.get(handValues.indexOf(min));
+            return "Winner: " + users.get(handValues.indexOf(min));
         }
         else{
             String temp = "";
             for(int i = 0; i < handValues.size(); i++){
-                if(handValues.get(i) == min) temp += insertUsers.get(i) + "; ";
+                if(handValues.get(i) == min) temp += users.get(i) + "; ";
             }
             return "Tie Between: " + temp;
         }
@@ -78,7 +78,7 @@ public class GameService {
         if(!gameRepository.gameExists(insertGameName)){
             gameRepository.commitGame(insertGameName, insertUsers, insertHands);
 
-            res.render("Message", "Game Completed: " + determineWinner(hand));
+            res.render("Message", "Game Completed: " + determineWinner(hand, insertUsers));
 
             insertUsers.clear();
             insertHands.clear();
@@ -86,7 +86,7 @@ public class GameService {
         }
         //Game exists, throw away
         else{
-            res.render("Message", "Game Thrown Away - Not Unique Name: " + determineWinner(hand));
+            res.render("Message", "Game Thrown Away - Not Unique Name: " + determineWinner(hand, insertUsers));
 
             insertUsers.clear();
             insertHands.clear();
