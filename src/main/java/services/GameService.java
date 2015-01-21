@@ -78,7 +78,8 @@ public class GameService {
         if(!gameRepository.gameExists(insertGameName)){
             gameRepository.commitGame(insertGameName, insertUsers, insertHands);
 
-            res.render("Message", "Game Completed: " + determineWinner(hand, insertUsers));
+            res.render("Heading", "Game Completed:");
+            res.render("Message",  determineWinner(hand, insertUsers));
 
             insertUsers.clear();
             insertHands.clear();
@@ -86,7 +87,8 @@ public class GameService {
         }
         //Game exists, throw away
         else{
-            res.render("Message", "Game Thrown Away - Not Unique Name: " + determineWinner(hand, insertUsers));
+            res.render("Heading", "Game Thrown Away - Not Unique Name:");
+            res.render("Message", determineWinner(hand, insertUsers));
 
             insertUsers.clear();
             insertHands.clear();
