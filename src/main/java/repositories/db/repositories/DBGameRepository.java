@@ -4,6 +4,8 @@ import com.google.inject.Singleton;
 import ninja.jpa.UnitOfWork;
 import repositories.db.structure.Game;
 
+import java.util.List;
+
 /**
  * Created by Chris on 1/20/2015.
  */
@@ -17,5 +19,9 @@ public class DBGameRepository extends DBBaseRepository<Game>{
         catch(javax.persistence.NoResultException ex){
             return null;
         }
+    }
+
+    public List<Game> getDistinctGames(){
+        return getEntityManager().createQuery("SELECT DISTINCT g FROM Game g").getResultList();
     }
 }

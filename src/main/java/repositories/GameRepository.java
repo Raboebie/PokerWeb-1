@@ -2,6 +2,7 @@ package repositories;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import model.Row;
 import repositories.db.repositories.DBGameRepository;
 import repositories.db.repositories.DBGame_UserRepository;
 import repositories.db.repositories.DBUserRepository;
@@ -54,6 +55,10 @@ public class GameRepository {
         } else {
             return false;
         }
+    }
+
+    public List<Row> getAllGamesInRows(){
+        return dbGame_userRepository.getAllGamesInRows();
     }
 
 

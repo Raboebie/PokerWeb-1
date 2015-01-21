@@ -25,7 +25,6 @@ import com.google.inject.Singleton;
 import repositories.GameRepository;
 import services.GameService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -74,11 +73,7 @@ public class ApplicationController {
     @FilterWith(SecureFilter.class)
     public Result viewgames(){
         Result res = Results.html();
-        Row r = new Row("ASD", "ASD1", "ASD2", "ASD3", "ASD4");
-        List<Row> rows = new ArrayList<>();
-        rows.add(r);
-        rows.add(r);
-        res.render("rows", rows);
+        res.render("rows", gameRepository.getAllGamesInRows());
         return res;
     }
 
