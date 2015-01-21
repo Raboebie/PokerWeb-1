@@ -2,6 +2,7 @@ package repositories.db.structure;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -14,7 +15,7 @@ public class Game {
     @Size(max=100)
     private String game_name;
 
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date game_date;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "game")

@@ -6,7 +6,7 @@ CREATE TABLE user(
 
 CREATE TABLE game(
     game_name VARCHAR(100) NOT NULL,
-    game_date DATE NOT NULL,
+    game_date TIMESTAMP NOT NULL,
     PRIMARY KEY(game_name)
 );
 

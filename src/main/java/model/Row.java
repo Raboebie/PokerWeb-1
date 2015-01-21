@@ -9,13 +9,15 @@ public class Row{
     String user1;
     String user2;
     String user3;
+    String date;
 
-    public Row(String game, String user0, String user1, String user2, String user3) {
+    public Row(String game, String user0, String user1, String user2, String user3, String date) {
         this.game = game;
         this.user0 = user0;
         this.user1 = user1;
         this.user2 = user2;
         this.user3 = user3;
+        this.date = date;
     }
 
     public String getGame() {
@@ -56,6 +58,14 @@ public class Row{
 
     public void setUser3(String user3) {
         this.user3 = user3;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 }
 
