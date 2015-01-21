@@ -16,11 +16,11 @@
         <tbody>
             <#list rows as row>
                 <tr>
-                    <td>${row.game}</td>
-                    <td>${row.user0}</td>
-                    <td>${row.user1}</td>
-                    <td>${row.user2}</td>
-                    <td>${row.user0}</td>
+                    <td>${row.game!"Error"}</td>
+                    <td>${row.user0!"Error"}</td>
+                    <td>${row.user1!"Error"}</td>
+                    <td>${row.user2!"Error"}</td>
+                    <td>${row.user3!"Error"}</td>
                 </tr>
             </#list>
         </tbody>

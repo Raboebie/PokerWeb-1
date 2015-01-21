@@ -49,7 +49,6 @@ public class GameRepository {
 
     public boolean gameExists(String gamename){
         Game game = dbGameRepository.getGameByName(gamename);
-        System.out.println(gamename);
         if (game != null) {
             return true;
         } else {

@@ -77,24 +77,9 @@ public class ApplicationController {
         Row r = new Row("ASD", "ASD1", "ASD2", "ASD3", "ASD4");
         List<Row> rows = new ArrayList<>();
         rows.add(r);
+        rows.add(r);
         res.render("rows", rows);
         return res;
     }
-}
 
-class Row{
-    //TODO: Rows
-    private char[] game;
-    private char[] user0;
-    private char[] user1;
-    private char[] user2;
-    private char[] user3;
-
-    public Row(String game, String user0, String user1, String user2, String user3) {
-        this.game = game.toCharArray();
-        this.user0 = user0.toCharArray();
-        this.user1 = user1.toCharArray();
-        this.user2 = user2.toCharArray();
-        this.user3 = user3.toCharArray();
-    }
 }
