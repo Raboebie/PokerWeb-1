@@ -3,20 +3,25 @@ var numberOfCeptions = 0;
 $(document).ready(function(){
     $("#cardtable").hide();
 
+    var count = $(".btn-select").length - 1;
+    var siblings = [];
+    var i = 0;
+    $("#userselection0").siblings(".dropdown-menu").children("li").siblings().each( function(){
+        siblings[i++] = $(this).children("a").html();
+    });
+    for(i = 0; i < count; i++){
+        $("#userselection" + i).html(siblings[i] + "<span class=\"caret\"></span>");
+    }
+
     $(".dropdown-menu li a").click(function(e){
         var selText = $(this).text();
         $(this).parents('.btn-group').find('.dropdown-toggle').html(selText+' <span class="caret"></span>');
-
-       /* $.each($(this).parents('.btn-group'), function(){
-            alert("ASD");
-        });*/
 
         if($(this).parent().parent().parent().attr("id") != "noplayers")
             e.preventDefault();
     });
 
     $("#btnPlay").click(function(){
-        //$("#cardcontainer").html("");
         $("#cardtable").show();
         $("#cards").html("");
         $("#conclusion").html("");
