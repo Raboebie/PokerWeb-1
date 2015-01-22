@@ -1,7 +1,7 @@
 <#import "../layout/defaultLayout.ftl.html" as layout>
     <@layout.myLayout "Home page">
 
-    <h1>Play!</h1>
+    <h1>Play Poker!</h1>
 
         <div class="well carousel-search hidden-sm">
 
@@ -61,6 +61,7 @@
             $("#actions").attr("href", "/logout");
             $("#actions").html("Logout");
         });
+        $("#play").parent().addClass("active");
     </script>
 
     <script type="text/javascript" src="/assets/js/play.js"></script>
