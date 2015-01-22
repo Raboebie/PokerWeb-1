@@ -2,6 +2,7 @@ package model.cards;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,6 +24,7 @@ public class Hand {
         cards.add(new Card(c3));
         cards.add(new Card(c4));
         cards.add(new Card(c5));
+        sort();
     }
 
     public Hand(Card c1, Card c2, Card c3, Card c4, Card c5){
@@ -31,6 +33,7 @@ public class Hand {
         cards.add(c3);
         cards.add(c4);
         cards.add(c5);
+        sort();
     }
 
     public List<Card> getCards() {
@@ -44,5 +47,13 @@ public class Hand {
         }
         temp += cards.get(4).toString();
         return temp;
+    }
+
+    public void sort(){
+        Collections.sort(cards, new Comparator<Card>(){
+            public int compare(Card a, Card b){
+                return a.getRank().compareTo(b.getRank());
+            }
+        });
     }
 }
