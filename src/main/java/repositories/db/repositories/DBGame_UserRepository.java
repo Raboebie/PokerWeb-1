@@ -46,6 +46,9 @@ public class DBGame_UserRepository extends DBBaseRepository<Game_User>{
 
             DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
             //Auto generated ID doesn't work
+            for(int i = usernames.size(); i < deck.MAX_HANDS; i++){
+                usernames.add("");
+            }
             rows.add(new Row(id++, game.getGame_name(), usernames.get(0), usernames.get(1), usernames.get(2), usernames.get(3), deck.determineWinner(hands, usernames) , df.format(game.getGame_date())));
         }
 

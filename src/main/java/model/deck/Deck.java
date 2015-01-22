@@ -16,6 +16,8 @@ import java.util.stream.Collectors;
  * Created by Chris on 1/11/2015.
  */
 public class Deck {
+    public final int MAX_HANDS = 10;
+
     static List<Card> deck = new ArrayList<>();
 
     public Deck(){

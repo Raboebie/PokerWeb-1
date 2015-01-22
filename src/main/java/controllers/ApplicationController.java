@@ -22,9 +22,11 @@ import com.google.inject.Inject;
 import ninja.*;
 
 import com.google.inject.Singleton;
+import ninja.params.ParamParsers;
 import repositories.GameRepository;
 import services.GameService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -51,7 +53,13 @@ public class ApplicationController {
     public Result play(Context context){
         Result res = Results.html();
         List<String> users = gameRepository.getAllUserNames();
+        List<String> loop = new ArrayList<>();
+        if(context.getParameter("noplayers") != null)
+            for (int i = 0; i < Integer.parseInt(context.getParameter("noplayers")); i++) loop.add(i + "");
+        else
+            for (int i = 0; i < 4; i++) loop.add(i + "");
         res.render("users", users);
+        res.render("loops", loop);
         return res;
     }
 

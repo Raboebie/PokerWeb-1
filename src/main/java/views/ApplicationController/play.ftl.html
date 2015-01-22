@@ -3,29 +3,37 @@
 
     <h1>Play!</h1>
 
-
         <div class="well carousel-search hidden-sm">
+
+            <div class="btn-group" id="noplayers">
+                <a class="btn btn-default dropdown-toggle btn-select" data-toggle="dropdown" href="#">Number of Players<span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="/play?noplayers=2">2</a></li>
+                    <li><a href="/play?noplayers=3">3</a></li>
+                    <li><a href="/play?noplayers=4">4</a></li>
+                    <li><a href="/play?noplayers=5">5</a></li>
+                    <li><a href="/play?noplayers=6">6</a></li>
+                    <li><a href="/play?noplayers=7">7</a></li>
+                    <li><a href="/play?noplayers=8">8</a></li>
+                    <li><a href="/play?noplayers=9">9</a></li>
+                    <li><a href="/play?noplayers=10">10</a></li>
+                </ul>
+            </div>
+
+            <br>
+            <br>
+
             <input type="text" id="game_name" class="form-control" placeholder="Game Name" style="width:196px;display:inline">
-            <div class="btn-group"> <a class="btn btn-default dropdown-toggle btn-select" data-toggle="dropdown" href="#">Select Player 1<span class="caret"></span></a>
-                <ul class="dropdown-menu">
-                    <#list users as user><li><a href="">${user}</a></li></#list>
-                </ul>
-            </div>
-            <div class="btn-group"> <a class="btn btn-default dropdown-toggle btn-select1" data-toggle="dropdown" href="#">Select Player 2<span class="caret"></span></a>
-                <ul class="dropdown-menu">
-                    <#list users as user><li><a href="">${user}</a></li></#list>
-                </ul>
-            </div>
-            <div class="btn-group"> <a class="btn btn-default dropdown-toggle btn-select2" data-toggle="dropdown" href="#">Select Player 3<span class="caret"></span></a>
-                <ul class="dropdown-menu">
-                    <#list users as user><li><a href="">${user}</a></li></#list>
-                </ul>
-            </div>
-            <div class="btn-group"> <a class="btn btn-default dropdown-toggle btn-select3" data-toggle="dropdown" href="#">Select Player 4<span class="caret"></span></a>
-                <ul class="dropdown-menu">
-                    <#list users as user><li><a href="">${user}</a></li></#list>
-                </ul>
-            </div>
+
+            <!-- loop to create dropdowns for players -->
+            <#list loops as loop>
+                <div class="btn-group">
+                    <a class="btn btn-default dropdown-toggle btn-select" id="userselection${loop}" data-toggle="dropdown" href="#">Select Player ${loop}<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <#list users as user><li><a href="">${user}</a></li></#list>
+                    </ul>
+                </div>
+            </#list>
             <div class="btn-group">
                 <button type="button" id="btnPlay" class="btn btn-primary">Play</button>
             </div>
