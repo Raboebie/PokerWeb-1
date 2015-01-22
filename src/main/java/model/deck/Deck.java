@@ -73,6 +73,14 @@ public class Deck {
         else return -1;
     }
 
+    public List<Hand> getHands(List<String> hands){
+        List<Hand> newHands = new ArrayList<>();
+        for(String hand : hands){
+            newHands.add(new Hand(hand));
+        }
+        return newHands;
+    }
+
     public String determineWinner(List<Hand> hands, List<String> users){
         List<Integer> handValues = new ArrayList<>();
         for(Hand hand : hands){

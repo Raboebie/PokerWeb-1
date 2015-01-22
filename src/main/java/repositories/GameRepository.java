@@ -2,7 +2,7 @@ package repositories;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import model.Row;
+import repositories.db.structure.Winner;
 import repositories.db.repositories.DBGameRepository;
 import repositories.db.repositories.DBGame_UserRepository;
 import repositories.db.repositories.DBUserRepository;
@@ -12,15 +12,12 @@ import repositories.db.structure.Game_User_ID;
 import repositories.db.structure.User;
 
 import java.math.BigInteger;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -78,8 +75,24 @@ public class GameRepository {
         }
     }
 
-    public List<Row> getAllGamesInRows(){
-        return dbGame_userRepository.getAllGamesInRows();
+    public List<Game_User> getAllGame_Users(){
+        return dbGame_userRepository.getAllGame_Users();
+    }
+
+    public List<Game> getAllGames(){
+        return dbGameRepository.getAllGames();
+    }
+
+    public List<User> getAllUsers(){
+        return dbUserRepository.getAllUsers();
+    }
+
+    public List<Winner> getAllWinners(){
+        return dbGame_userRepository.getAllWinners();
+    }
+
+    public List<Game> getAllGamesOrderedByDate(){
+        return dbGameRepository.getAllGamesOrderedByDate();
     }
 
 

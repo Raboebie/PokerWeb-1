@@ -2,19 +2,17 @@ package repositories.db.repositories;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import model.Row;
 import model.cards.Hand;
 import model.deck.Deck;
 import ninja.jpa.UnitOfWork;
-import repositories.GameRepository;
 import repositories.db.structure.Game;
 import repositories.db.structure.Game_User;
+import repositories.db.structure.Winner;
 import services.GameService;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -27,31 +25,32 @@ public class DBGame_UserRepository extends DBBaseRepository<Game_User>{
     @Inject private Deck deck;
 
     @UnitOfWork
-    public List<Row> getAllGamesInRows(){
-        List<Row> rows = new ArrayList<>();
-        List<Game> games = dbGameRepository.getDistinctGamesOrdered();
-
-        int id = 1;
+    public List<Winner> getAllWinners(){
+        List<Winner> winners = new ArrayList<>();
+        List<Game> games = dbGameRepository.getAllGamesOrderedByDate();
 
         for(Game game : games){
-            List<Game_User> game_users = getEntityManager().createQuery("SELECT g FROM Game_User g WHERE game_id = :game_id").setParameter("game_id", game.getGame_id()).getResultList();
-
-            List<String> usernames = new ArrayList<>();
-            List<Hand> hands = new ArrayList<>();
+            List<Game_User> game_users = getGame_UserByGame_ID(game.getGame_id() + "");
+            List<String> hands = new ArrayList<>();
+            List<String> users = new ArrayList<>();
             for(Game_User game_user : game_users){
-                usernames.add(game_user.getUser().getUser_name());
-                hands.add(new Hand(game_user.getHand()));
+                hands.add(game_user.getHand());
+                users.add(game_user.getUser().getUser_name());
             }
-
-
-            DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-            //Auto generated ID doesn't work
-            for(int i = usernames.size(); i < deck.MAX_HANDS; i++){
-                usernames.add("");
-            }
-            rows.add(new Row(id++, game.getGame_name(), usernames.get(0), usernames.get(1), usernames.get(2), usernames.get(3), deck.determineWinner(hands, usernames) , df.format(game.getGame_date())));
+            winners.add(new Winner(deck.determineWinner(deck.getHands(hands), users), game.getGame_id()));
         }
-
-        return rows;
+        return winners;
     }
+
+    @UnitOfWork
+    public List<Game_User> getGame_UserByGame_ID(String id){
+        return getEntityManager().createQuery("SELECT g FROM Game_User g WHERE game_id = :game_id").setParameter("game_id", id).getResultList();
+    }
+
+    @UnitOfWork
+    public List<Game_User> getAllGame_Users(){
+        return getEntityManager().createQuery("SELECT g FROM Game_User g").getResultList();
+    }
+
+
 }

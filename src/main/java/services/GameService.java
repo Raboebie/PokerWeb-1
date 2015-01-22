@@ -87,6 +87,9 @@ public class GameService {
     }
 
     public void viewGames(Result res){
-        res.render("rows", gameRepository.getAllGamesInRows());
+        //res.render("rows", gameRepository.getAllGamesInRows());
+        res.render("gameusers", gameRepository.getAllGame_Users());
+        res.render("games", gameRepository.getAllGamesOrderedByDate());
+        res.render("winners", gameRepository.getAllWinners());
     }
 }

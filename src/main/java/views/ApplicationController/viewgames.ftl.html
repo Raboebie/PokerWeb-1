@@ -2,40 +2,60 @@
     <@layout.myLayout "Home page">
 
     <h1>View Games</h1>
-    <br>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Game #</th>
-                <th>Game Name</th>
-                <th>Winner</th>
-                <th>User #0</th>
-                <th>User #1</th>
-                <th>User #2</th>
-                <th>User #3</th>
-                <th>Date</th>
-            </tr>
-        </thead>
-        <tbody>
-            <#list rows as row>
-                <tr>
-                    <td>${row.number!"Error"}</td>
-                    <td>${row.game!"Error"}</td>
-                    <td>${row.winner!"Error"}</td>
-                    <td>${row.user0!""}</td>
-                    <td>${row.user1!""}</td>
-                    <td>${row.user2!""}</td>
-                    <td>${row.user3!""}</td>
-                    <td>${row.date!"Error"}</td>
-                </tr>
-            </#list>
-        </tbody>
-    </table>
 
-    <script type="text/javascript">
-        $(document).ready(function(){
-            $("#actions").attr("href", "/logout");
-            $("#actions").html("Logout");
-        });
-    </script>
+    <br>
+
+    <#list games as game>
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">Game</h3>
+            </div>
+
+            <div class="panel-body">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Date</th>
+                            <th>Winner</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>${game.game_id}</td>
+                            <td>Name: ${game.game_name}</td>
+                            <td>Date: ${game.game_date}</td>
+                            <td>
+                                <#list winners as winner>
+                                    <#if winner.game_id == game.game_id>
+                                        ${winner.name}
+                                    </#if>
+                                </#list>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Player</th>
+                            <th>Cards</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <#list gameusers as gameuser>
+                            <#if gameuser.game.game_id == game.game_id>
+                                <tr>
+                                    <td>${gameuser.user.user_name}</td>
+                                    <td>${gameuser.hand}</td>
+                                </tr>
+                                </#if>
+                            </#list>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </#list>
+
 </@layout.myLayout>

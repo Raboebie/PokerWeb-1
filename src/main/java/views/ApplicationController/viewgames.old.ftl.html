@@ -1,0 +1,41 @@
+<#import "../layout/defaultLayout.ftl.html" as layout>
+    <@layout.myLayout "Home page">
+
+    <h1>View Games</h1>
+    <br>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Game #</th>
+                <th>Game Name</th>
+                <th>Winner</th>
+                <th>User #0</th>
+                <th>User #1</th>
+                <th>User #2</th>
+                <th>User #3</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            <#list rows as row>
+                <tr>
+                    <td>${row.number!"Error"}</td>
+                    <td>${row.game!"Error"}</td>
+                    <td>${row.winner!"Error"}</td>
+                    <td>${row.user0!""}</td>
+                    <td>${row.user1!""}</td>
+                    <td>${row.user2!""}</td>
+                    <td>${row.user3!""}</td>
+                    <td>${row.date!"Error"}</td>
+                </tr>
+            </#list>
+        </tbody>
+    </table>
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $("#actions").attr("href", "/logout");
+            $("#actions").html("Logout");
+        });
+    </script>
+</@layout.myLayout>
