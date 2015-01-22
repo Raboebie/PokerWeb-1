@@ -1,9 +1,13 @@
 package repositories.db.repositories;
 
+import com.google.common.collect.Lists;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import ninja.jpa.UnitOfWork;
 import repositories.db.structure.Game;
+import repositories.db.structure.Game_User;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,6 +15,8 @@ import java.util.List;
  */
 @Singleton
 public class DBGameRepository extends DBBaseRepository<Game>{
+    @Inject DBGame_UserRepository dbGame_userRepository;
+
     @UnitOfWork
     public Game getGameByName(String name){
         try {
@@ -34,4 +40,31 @@ public class DBGameRepository extends DBBaseRepository<Game>{
     public List<Game> getAllGamesOrderedByDate(){
         return getEntityManager().createQuery("SELECT g FROM Game g ORDER BY game_date DESC").getResultList();
     }
+
+    @UnitOfWork
+    public List<Game> getAllGamesByUsernameOrderedByDate(String username){
+        List<Game_User> game_users = dbGame_userRepository.getGame_UsersByUser_Name(username);
+        List<Game> currentGames = getEntityManager().createQuery("SELECT g FROM Game g ORDER BY game_date DESC").getResultList();
+        List<Game> games = new ArrayList<>();
+        for(Game_User game_user : game_users){
+            int index = listContains(currentGames, game_user.getId().getGame_id());
+            if(index != -1){
+                games.add(currentGames.get(index));
+                currentGames.remove(index);
+            }
+        }
+        games = Lists.reverse(games);
+        return games;
+    }
+
+    public int listContains(List<Game> games, int id){
+        for(int i = 0; i < games.size(); i++){
+            if(games.get(i).getGame_id() == id) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+
 }

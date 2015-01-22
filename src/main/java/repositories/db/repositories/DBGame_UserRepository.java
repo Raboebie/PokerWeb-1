@@ -52,5 +52,20 @@ public class DBGame_UserRepository extends DBBaseRepository<Game_User>{
         return getEntityManager().createQuery("SELECT g FROM Game_User g").getResultList();
     }
 
+    @UnitOfWork
+    public List<Game_User> getGame_UsersByUser_Name(String username){
+        List<Game_User> returnable = new ArrayList<>();
+        List<Game_User> game_users = getEntityManager().createQuery("SELECT g FROM Game_User g WHERE user_name = :user_name").setParameter("user_name", username).getResultList();
+
+        for(Game_User game_user : game_users){
+            List<Game_User> temp = getGame_UserByGame_ID(game_user.getId().getGame_id() + "");
+            for(Game_User tempGame : temp){
+                returnable.add(tempGame);
+            }
+        }
+
+        return returnable;
+    }
+
 
 }

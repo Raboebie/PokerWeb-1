@@ -87,6 +87,10 @@ public class GameRepository {
         return dbGame_userRepository.getAllGame_Users();
     }
 
+    public List<Game_User> getGame_UsersByUser_Name(String username){
+        return  dbGame_userRepository.getGame_UsersByUser_Name(username);
+    }
+
     public List<Game> getAllGames(){
         return dbGameRepository.getAllGames();
     }
@@ -102,6 +106,12 @@ public class GameRepository {
     public List<Game> getAllGamesOrderedByDate(){
         return dbGameRepository.getAllGamesOrderedByDate();
     }
+
+    public List<Game> getAllGamesByUsernameOrderedByDate(String username){
+        return dbGameRepository.getAllGamesByUsernameOrderedByDate(username);
+    }
+
+
 
 
 

@@ -92,4 +92,11 @@ public class GameService {
         res.render("games", gameRepository.getAllGamesOrderedByDate());
         res.render("winners", gameRepository.getAllWinners());
     }
+
+    public void viewGamesByUser(Context context, Result res){
+        //res.render("rows", gameRepository.getAllGamesInRows());
+        res.render("gameusers", gameRepository.getGame_UsersByUser_Name(context.getSession().get("username")));
+        res.render("games", gameRepository.getAllGamesByUsernameOrderedByDate(context.getSession().get("username")));
+        res.render("winners", gameRepository.getAllWinners());
+    }
 }
