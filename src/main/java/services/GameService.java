@@ -74,4 +74,19 @@ public class GameService {
         res.render("evaluation", evaluateHand(dealtHand));
         res.render("name", context.getParameter("username"));
     }
+
+    public void play(Context context, Result res){
+        List<String> users = gameRepository.getAllUserNames();
+        List<String> loop = new ArrayList<>();
+        if(context.getParameter("noplayers") != null)
+            for (int i = 0; i < Integer.parseInt(context.getParameter("noplayers")); i++) loop.add(i + "");
+        else
+            for (int i = 0; i < 4; i++) loop.add(i + "");
+        res.render("users", users);
+        res.render("loops", loop);
+    }
+
+    public void viewGames(Result res){
+        res.render("rows", gameRepository.getAllGamesInRows());
+    }
 }

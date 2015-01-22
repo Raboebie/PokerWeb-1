@@ -52,14 +52,7 @@ public class ApplicationController {
     @FilterWith(SecureFilter.class)
     public Result play(Context context){
         Result res = Results.html();
-        List<String> users = gameRepository.getAllUserNames();
-        List<String> loop = new ArrayList<>();
-        if(context.getParameter("noplayers") != null)
-            for (int i = 0; i < Integer.parseInt(context.getParameter("noplayers")); i++) loop.add(i + "");
-        else
-            for (int i = 0; i < 4; i++) loop.add(i + "");
-        res.render("users", users);
-        res.render("loops", loop);
+        gameService.play(context, res);
         return res;
     }
 
@@ -80,7 +73,7 @@ public class ApplicationController {
     @FilterWith(SecureFilter.class)
     public Result viewgames(){
         Result res = Results.html();
-        res.render("rows", gameRepository.getAllGamesInRows());
+        gameService.viewGames(res);
         return res;
     }
 

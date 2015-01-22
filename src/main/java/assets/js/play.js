@@ -10,9 +10,7 @@ $(document).ready(function(){
 
     $("#btnPlay").click(function(){
         $("#cardcontainer").html("");
-
         numberOfCeptions = $(".btn-select").length - 1;
-
         ajaxCeption(0);
     });
 });
