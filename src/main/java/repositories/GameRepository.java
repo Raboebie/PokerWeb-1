@@ -2,6 +2,8 @@ package repositories;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import model.cards.Hand;
+import model.deck.Deck;
 import repositories.db.structure.Winner;
 import repositories.db.repositories.DBGameRepository;
 import repositories.db.repositories.DBGame_UserRepository;
@@ -31,6 +33,7 @@ public class GameRepository {
     @Inject private DBGameRepository dbGameRepository;
     @Inject private DBGame_UserRepository dbGame_userRepository;
     @Inject private DBUserRepository dbUserRepository;
+    @Inject private Deck deck;
 
     public void insertTestData(){
         dbUserRepository.persist(makeUser("Chris"));
@@ -39,6 +42,10 @@ public class GameRepository {
         dbUserRepository.persist(makeUser("Dihan"));
         dbUserRepository.persist(makeUser("Eduan"));
         dbUserRepository.persist(makeUser("Albert"));
+        dbUserRepository.persist(makeUser("Charl"));
+        dbUserRepository.persist(makeUser("Stefan"));
+        dbUserRepository.persist(makeUser("Brandon"));
+        dbUserRepository.persist(makeUser("Barend"));
     }
 
     private User makeUser(String username){
@@ -62,6 +69,7 @@ public class GameRepository {
             Game_User game_user = new Game_User();
             game_user.setId(game_user_id);
             game_user.setHand(hands.get(i));
+            game_user.setEvaluation(deck.evaluation(new Hand(hands.get(i))));
             dbGame_userRepository.persist(game_user);
         }
     }

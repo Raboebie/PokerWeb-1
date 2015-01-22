@@ -23,6 +23,9 @@ public class Game_User  implements Serializable{
     @Column
     private String hand;
 
+    @Column
+    private String evaluation;
+
     public Game_User_ID getId() {
         return id;
     }
@@ -53,5 +56,13 @@ public class Game_User  implements Serializable{
 
     public void setHand(String hand) {
         this.hand = hand;
+    }
+
+    public String getEvaluation() {
+        return evaluation;
+    }
+
+    public void setEvaluation(String evaluation) {
+        this.evaluation = evaluation;
     }
 }
