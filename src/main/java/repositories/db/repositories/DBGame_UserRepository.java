@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import model.Row;
 import model.cards.Hand;
+import model.deck.Deck;
 import ninja.jpa.UnitOfWork;
 import repositories.GameRepository;
 import repositories.db.structure.Game;
@@ -23,6 +24,7 @@ import java.util.List;
 public class DBGame_UserRepository extends DBBaseRepository<Game_User>{
     @Inject private DBGameRepository dbGameRepository;
     @Inject private GameService gameService;
+    @Inject private Deck deck;
 
     @UnitOfWork
     public List<Row> getAllGamesInRows(){
@@ -43,9 +45,8 @@ public class DBGame_UserRepository extends DBBaseRepository<Game_User>{
 
 
             DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-            System.out.println(gameService.determineWinner(hands, usernames));
             //Auto generated ID doesn't work
-            rows.add(new Row(id++, game.getGame_name(), usernames.get(0), usernames.get(1), usernames.get(2), usernames.get(3), gameService.determineWinner(hands, usernames) , df.format(game.getGame_date())));
+            rows.add(new Row(id++, game.getGame_name(), usernames.get(0), usernames.get(1), usernames.get(2), usernames.get(3), deck.determineWinner(hands, usernames) , df.format(game.getGame_date())));
         }
 
         return rows;

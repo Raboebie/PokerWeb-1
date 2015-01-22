@@ -70,4 +70,32 @@ public class Deck {
         else if(evaluation.equals("High Card")) return 8;
         else return -1;
     }
+
+    public String determineWinner(List<Hand> hands, List<String> users){
+        List<Integer> handValues = new ArrayList<>();
+        for(Hand hand : hands){
+            handValues.add(handStrength(evaluation(hand)));
+        }
+
+        int min = 90;
+        for(Integer value : handValues){
+            if(value < min) min = value;
+        }
+
+        int count = 0;
+        for(Integer value: handValues){
+            if(value == min) count++;
+        }
+
+        if(count == 1){
+            return "Winner: " + users.get(handValues.indexOf(min));
+        }
+        else{
+            String temp = "";
+            for(int i = 0; i < handValues.size(); i++){
+                if(handValues.get(i) == min) temp += users.get(i) + "; ";
+            }
+            return "Tie Between: " + temp;
+        }
+    }
 }

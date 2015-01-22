@@ -40,34 +40,6 @@ public class GameService {
         return deck.evaluation(hand);
     }
 
-    public String determineWinner(List<Hand> hands, List<String> users){
-        List<Integer> handValues = new ArrayList<>();
-        for(Hand hand : hands){
-            handValues.add(deck.handStrength(deck.evaluation(hand)));
-        }
-
-        int min = 90;
-        for(Integer value : handValues){
-            if(value < min) min = value;
-        }
-
-        int count = 0;
-        for(Integer value: handValues){
-            if(value == min) count++;
-        }
-
-        if(count == 1){
-            return "Winner: " + users.get(handValues.indexOf(min));
-        }
-        else{
-            String temp = "";
-            for(int i = 0; i < handValues.size(); i++){
-                if(handValues.get(i) == min) temp += users.get(i) + "; ";
-            }
-            return "Tie Between: " + temp;
-        }
-    }
-
     public void resetDeckAndCommit(Result res){
         List<Hand> hand = new ArrayList<>();
         for(String h : insertHands){
@@ -75,25 +47,14 @@ public class GameService {
         }
 
         //Game doesn't exist
-        if(!gameRepository.gameExists(insertGameName)){
-            gameRepository.commitGame(insertGameName, insertUsers, insertHands);
+        gameRepository.commitGame(insertGameName, insertUsers, insertHands);
 
-            res.render("Heading", "Game Completed:");
-            res.render("Message",  determineWinner(hand, insertUsers));
+        res.render("Heading", "Game Completed:");
+        res.render("Message",  deck.determineWinner(hand, insertUsers));
 
-            insertUsers.clear();
-            insertHands.clear();
-            insertGameName = "";
-        }
-        //Game exists, throw away
-        else{
-            res.render("Heading", "Game Thrown Away - Not Unique Name:");
-            res.render("Message", determineWinner(hand, insertUsers));
-
-            insertUsers.clear();
-            insertHands.clear();
-            insertGameName = "";
-        }
+        insertUsers.clear();
+        insertHands.clear();
+        insertGameName = "";
 
         deck.resetDeck();
     }
