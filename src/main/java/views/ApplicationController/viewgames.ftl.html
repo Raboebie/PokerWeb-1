@@ -40,7 +40,7 @@
                     <thead>
                         <tr>
                             <th>Player</th>
-                            <th>Cards</th>
+                            <th>Hand</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -48,7 +48,13 @@
                             <#if gameuser.game.game_id == game.game_id>
                                 <tr>
                                     <td>${gameuser.user.user_name}</td>
-                                    <td>${gameuser.hand}</td>
+                                    <td>
+                                        <img height="80px" src="/assets/images/cards/${gameuser.hand[0]}${gameuser.hand[1]}.png">
+                                        <img height="80px" src="/assets/images/cards/${gameuser.hand[3]}${gameuser.hand[4]}.png">
+                                        <img height="80px" src="/assets/images/cards/${gameuser.hand[6]}${gameuser.hand[7]}.png">
+                                        <img height="80px" src="/assets/images/cards/${gameuser.hand[9]}${gameuser.hand[10]}.png">
+                                        <img height="80px" src="/assets/images/cards/${gameuser.hand[12]}${gameuser.hand[13]}.png">
+                                    </td>
                                 </tr>
                                 </#if>
                             </#list>
