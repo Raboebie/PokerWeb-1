@@ -71,14 +71,14 @@ public class ApplicationController {
     }
 
     @FilterWith(SecureFilter.class)
-    public Result viewGames(){
+    public Result viewgames(){
         Result res = Results.html();
         gameService.viewGames(res);
         return res;
     }
 
     @FilterWith(SecureFilter.class)
-    public Result viewGamesByUser(Context context){
+    public Result viewgamesbyuser(Context context){
         Result res = Results.html();
         gameService.viewGamesByUser(context, res);
         return res;
