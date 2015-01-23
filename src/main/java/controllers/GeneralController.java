@@ -31,7 +31,7 @@ import java.util.List;
 
 
 @Singleton
-public class ApplicationController {
+public class GeneralController {
 
     private final String USERNAME = "username";
 
@@ -47,27 +47,6 @@ public class ApplicationController {
     @FilterWith(LoggedInFilter.class)
     public Result reg(Context context){
         return Results.html();
-    }
-
-    @FilterWith(SecureFilter.class)
-    public Result play(Context context){
-        Result res = Results.html();
-        gameService.play(context, res);
-        return res;
-    }
-
-    @FilterWith(SecureFilter.class)
-    public Result cards(Context context){
-        Result res = Results.html();
-        gameService.populateCards(context, res);
-        return res;
-    }
-
-    @FilterWith(SecureFilter.class)
-    public Result resetDeckAndCommit(){
-        Result res = Results.html();
-        gameService.resetDeckAndCommit(res);
-        return res;
     }
 
     @FilterWith(SecureFilter.class)
@@ -88,5 +67,4 @@ public class ApplicationController {
         gameRepository.insertTestData();
         return Results.redirect("/");
     }
-
 }

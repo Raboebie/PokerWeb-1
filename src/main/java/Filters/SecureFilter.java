@@ -1,7 +1,7 @@
 package Filters;
 
 import com.google.inject.Inject;
-import controllers.ApplicationController;
+import controllers.GeneralController;
 import ninja.*;
 import services.AuthenticationService;
 
@@ -21,7 +21,7 @@ public class SecureFilter implements Filter {
         }
         if(context.getSession() == null || context.getSession().get(USERNAME) == null){
             context.getFlashScope().error("Not Logged In");
-            return Results.redirect(router.getReverseRoute(ApplicationController.class, "index"));
+            return Results.redirect(router.getReverseRoute(GeneralController.class, "index"));
         }
         return filterChain.next(context);
     }

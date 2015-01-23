@@ -68,6 +68,10 @@
 
     <script type="text/javascript">
         $("#viewgamesbyuser").parent().addClass("active");
+        $(document).ready(function(){
+            $("#actions").attr("href", "/logout");
+            $("#actions").html("Logout");
+        });
     </script>
 
 </@layout.myLayout>

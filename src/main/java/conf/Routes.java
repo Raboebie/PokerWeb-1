@@ -17,30 +17,31 @@
 package conf;
 
 
-import Filters.LoggedInFilter;
 import controllers.AuthenticationController;
+import controllers.GameController;
 import ninja.AssetsController;
-import ninja.FilterWith;
 import ninja.Router;
 import ninja.application.ApplicationRoutes;
-import controllers.ApplicationController;
-import services.AuthenticationService;
+import controllers.GeneralController;
 
 public class Routes implements ApplicationRoutes {
 
     @Override
     public void init(Router router) {
 
-        router.GET().route("/").with(ApplicationController.class, "index");
-        router.GET().route("/reg").with(ApplicationController.class, "reg");
-        router.GET().route("/play").with(ApplicationController.class, "play");
-        router.GET().route("/test").with(ApplicationController.class, "test");
-        router.GET().route("/viewgames").with(ApplicationController.class, "viewgames");
-        router.GET().route("/viewgamesbyuser").with(ApplicationController.class, "viewgamesbyuser");
+        router.GET().route("/").with(GeneralController.class, "index");
+        router.GET().route("/reg").with(GeneralController.class, "reg");
+        router.GET().route("/test").with(GeneralController.class, "test");
+        router.GET().route("/viewgames").with(GeneralController.class, "viewgames");
+        router.GET().route("/viewgamesbyuser").with(GeneralController.class, "viewgamesbyuser");
+
+        router.GET().route("/play").with(GameController.class, "play");
+        router.GET().route("/play/{id}/lobby").with(GameController.class, "playlobby");
+        router.GET().route("/play/{id}/history").with(GameController.class, "playhistory");
 
         //Helpers
-        router.POST().route("/cards").with(ApplicationController.class, "cards");
-        router.POST().route("/resetDeck").with(ApplicationController.class, "resetDeckAndCommit");
+        router.POST().route("/cards").with(GameController.class, "cards");
+        router.POST().route("/resetDeck").with(GameController.class, "resetDeckAndCommit");
 
         router.GET().route("/logout").with(AuthenticationController.class, "logout");
         router.POST().route("/login").with(AuthenticationController.class, "login");
@@ -59,7 +60,7 @@ public class Routes implements ApplicationRoutes {
         ///////////////////////////////////////////////////////////////////////
         // Index / Catchall shows index page
         ///////////////////////////////////////////////////////////////////////
-        router.GET().route("/.*").with(ApplicationController.class, "index");
+        router.GET().route("/.*").with(GeneralController.class, "index");
     }
 
 }

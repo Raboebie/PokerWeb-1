@@ -27,6 +27,8 @@ public class GameService {
 
     @Inject private Deck deck;
     @Inject private GameRepository gameRepository;
+    List<Game> games = new ArrayList<>();
+    List<String> owners = new ArrayList<>();
 
     private String insertGameName = "";
     private List<String> insertUsers = new ArrayList<>();
@@ -76,14 +78,7 @@ public class GameService {
     }
 
     public void play(Context context, Result res){
-        List<String> users = gameRepository.getAllUserNames();
-        List<String> loop = new ArrayList<>();
-        if(context.getParameter("noplayers") != null)
-            for (int i = 0; i < Integer.parseInt(context.getParameter("noplayers")); i++) loop.add(i + "");
-        else
-            for (int i = 0; i < 4; i++) loop.add(i + "");
-        res.render("users", users);
-        res.render("loops", loop);
+
     }
 
     public void viewGames(Result res){

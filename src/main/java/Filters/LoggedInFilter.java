@@ -1,7 +1,7 @@
 package Filters;
 
 import com.google.inject.Inject;
-import controllers.ApplicationController;
+import controllers.GeneralController;
 import ninja.*;
 
 /**
@@ -16,7 +16,7 @@ public class LoggedInFilter implements  Filter{
     public Result filter(FilterChain filterChain, Context context) {
         if(context.getSession().get(USERNAME) != null){
             context.getFlashScope().success("Already Logged In");
-            return Results.redirect(router.getReverseRoute(ApplicationController.class, "play"));
+            return Results.redirect(router.getReverseRoute(GeneralController.class, "play"));
         }
         return filterChain.next(context);
     }

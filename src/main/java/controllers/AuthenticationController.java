@@ -6,7 +6,6 @@ import ninja.Context;
 import ninja.Result;
 import ninja.Results;
 import ninja.Router;
-import ninja.params.PathParam;
 import services.AuthenticationService;
 
 /**
@@ -22,21 +21,21 @@ public class AuthenticationController {
 
     public Result login(Context context){
         if(authenticationService.login(context, context.getParameter("username", ""), context.getParameter("password", "")))
-            return Results.redirect(router.getReverseRoute(ApplicationController.class, "play"));
+            return Results.redirect(router.getReverseRoute(GeneralController.class, "play"));
         context.getFlashScope().error("Login Failed - Invalid Username/Password Combination");
-        return Results.redirect(router.getReverseRoute(ApplicationController.class, "index"));
+        return Results.redirect(router.getReverseRoute(GeneralController.class, "index"));
     }
 
     public Result register(Context context){
         if(authenticationService.register(context, context.getParameter("username", ""), context.getParameter("password", "")))
-            return Results.redirect(router.getReverseRoute(ApplicationController.class, "play"));
+            return Results.redirect(router.getReverseRoute(GeneralController.class, "play"));
         context.getFlashScope().error("Registration Failed - Username Already In Use or Password/Username Too Short");
-        return Results.redirect(router.getReverseRoute(ApplicationController.class, "index"));
+        return Results.redirect(router.getReverseRoute(GeneralController.class, "index"));
     }
 
     public Result logout(Context context){
         context.getSession().clear();
-        return Results.redirect(router.getReverseRoute(ApplicationController.class, "index"));
+        return Results.redirect(router.getReverseRoute(GeneralController.class, "index"));
     }
 
     public Result userExists(Context context){
