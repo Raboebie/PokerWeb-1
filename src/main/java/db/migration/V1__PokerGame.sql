@@ -8,6 +8,7 @@ CREATE TABLE game(
     game_id INT NOT NULL AUTO_INCREMENT,
     game_name VARCHAR(100) NOT NULL,
     game_date TIMESTAMP NOT NULL,
+    game_owner VARCHAR(100) NOT NULL,
     PRIMARY KEY(game_id)
 );
 

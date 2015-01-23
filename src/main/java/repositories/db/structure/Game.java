@@ -17,6 +17,8 @@ public class Game {
 
     private String game_name;
 
+    private String game_owner;
+
     @Temporal(TemporalType.TIMESTAMP)
     private Date game_date;
 
@@ -53,5 +55,13 @@ public class Game {
 
     public void setGame_date(Date game_date) {
         this.game_date = game_date;
+    }
+
+    public String getGame_owner() {
+        return game_owner;
+    }
+
+    public void setGame_owner(String game_owner) {
+        this.game_owner = game_owner;
     }
 }

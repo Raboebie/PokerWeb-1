@@ -1,0 +1,32 @@
+<#import "../layout/defaultLayout.ftl.html" as layout>
+    <@layout.myLayout "Home page">
+
+    <h2>New Game:</h2>
+    <form class="form-group" name="newgame" action="newgame" method="post">
+        <input type="text" name="newgame" class="form-control" placeholder="Game Name" style="width:30%;display:inline">
+        <button class="btn btn-success">New Game</button>
+    </form>
+
+    <br>
+
+    <h2>Current Games:</h2>
+    <div class="list-group">
+        <#list games as game>
+                <a href="/play/${game.game_id}/lobby" class="list-group-item">
+                    <h4>${game.game_name}</h4>
+                    <p>Hosted By: ${game.game_owner}</p>
+                </a>
+        </#list>
+    </div>
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $("#actions").attr("href", "/logout");
+            $("#actions").html("Logout");
+        });
+        $("#play").parent().addClass("active");
+    </script>
+
+    <script type="text/javascript" src="/assets/js/play.js"></script>
+
+</@layout.myLayout>

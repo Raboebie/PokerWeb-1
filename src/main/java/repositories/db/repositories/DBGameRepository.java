@@ -66,5 +66,15 @@ public class DBGameRepository extends DBBaseRepository<Game>{
         return -1;
     }
 
-
+    @UnitOfWork
+    public List<Game> getAllUnfinishedGames(){
+        List<Game> all = getEntityManager().createQuery("SELECT g FROM Game g").getResultList();
+        List<Game> returnable = new ArrayList<>();
+        for(Game game : all){
+            if(game.getGameUserList().size() == 0){
+                returnable.add(game);
+            }
+        }
+        return returnable;
+    }
 }

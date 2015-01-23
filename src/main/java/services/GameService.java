@@ -2,11 +2,11 @@ package services;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import controllers.GameController;
 import model.cards.Card;
 import model.cards.Hand;
 import model.deck.Deck;
-import ninja.Context;
-import ninja.Result;
+import ninja.*;
 import repositories.GameRepository;
 import repositories.db.repositories.DBGameRepository;
 import repositories.db.repositories.DBGame_UserRepository;
@@ -17,6 +17,7 @@ import repositories.db.structure.Game_User_ID;
 import repositories.db.structure.User;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -27,8 +28,7 @@ public class GameService {
 
     @Inject private Deck deck;
     @Inject private GameRepository gameRepository;
-    List<Game> games = new ArrayList<>();
-    List<String> owners = new ArrayList<>();
+    @Inject private Router router;
 
     private String insertGameName = "";
     private List<String> insertUsers = new ArrayList<>();
@@ -78,7 +78,20 @@ public class GameService {
     }
 
     public void play(Context context, Result res){
+        List<Game> unfinishedGames = gameRepository.getAllUnfinishedGames();
+        List<Game> activeGames = new ArrayList<>();
+        for(Game game : unfinishedGames){
+            activeGames.add(game);
+        }
+        res.render("games", activeGames);
+    }
 
+    public void newGame(Context context) {
+        Game game = new Game();
+        game.setGame_name(context.getParameter("newgame"));
+        game.setGame_date(new Date());
+        game.setGame_owner(context.getSession().get("username"));
+        gameRepository.newGame(game);
     }
 
     public void viewGames(Result res){
@@ -94,4 +107,6 @@ public class GameService {
         res.render("games", gameRepository.getAllGamesByUsernameOrderedByDate(context.getSession().get("username")));
         res.render("winners", gameRepository.getAllWinners());
     }
+
+
 }

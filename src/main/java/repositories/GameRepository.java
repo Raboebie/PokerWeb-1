@@ -35,6 +35,10 @@ public class GameRepository {
     @Inject private DBUserRepository dbUserRepository;
     @Inject private Deck deck;
 
+    public void newGame(Game game){
+        dbGameRepository.persist(game);
+    }
+
     public void insertTestData(){
         dbUserRepository.persist(makeUser("Chris"));
         dbUserRepository.persist(makeUser("Arno"));
@@ -109,6 +113,10 @@ public class GameRepository {
 
     public List<Game> getAllGamesByUsernameOrderedByDate(String username){
         return dbGameRepository.getAllGamesByUsernameOrderedByDate(username);
+    }
+
+    public List<Game> getAllUnfinishedGames(){
+        return dbGameRepository.getAllUnfinishedGames();
     }
 
 

@@ -65,6 +65,6 @@ public class GeneralController {
 
     public Result test(){
         gameRepository.insertTestData();
-        return Results.redirect("/");
+        return Results.redirect(router.getReverseRoute(GeneralController.class, "index"));
     }
 }

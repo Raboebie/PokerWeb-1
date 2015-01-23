@@ -35,6 +35,8 @@ public class Routes implements ApplicationRoutes {
         router.GET().route("/viewgames").with(GeneralController.class, "viewgames");
         router.GET().route("/viewgamesbyuser").with(GeneralController.class, "viewgamesbyuser");
 
+        router.POST().route("/newgame").with(GameController.class, "newGame");
+
         router.GET().route("/play").with(GameController.class, "play");
         router.GET().route("/play/{id}/lobby").with(GameController.class, "playlobby");
         router.GET().route("/play/{id}/history").with(GameController.class, "playhistory");
@@ -48,7 +50,7 @@ public class Routes implements ApplicationRoutes {
         router.POST().route("/register").with(AuthenticationController.class, "register");
         router.POST().route("/userExists").with(AuthenticationController.class, "userExists");
 
-        //router.GET().route("/hello_world.json").with(ApplicationController.class, "helloWorldJson");
+        //router.GET().route("/hello_world.json").with(GeneralController.class, "helloWorldJson");
         
  
         ///////////////////////////////////////////////////////////////////////

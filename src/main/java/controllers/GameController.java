@@ -1,12 +1,10 @@
 package controllers;
 
+import Filters.Hosting;
 import Filters.SecureFilter;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import ninja.Context;
-import ninja.FilterWith;
-import ninja.Result;
-import ninja.Results;
+import ninja.*;
 import services.GameService;
 
 /**
@@ -15,8 +13,9 @@ import services.GameService;
 @Singleton
 public class GameController {
     @Inject private GameService gameService;
+    @Inject private Router router;
 
-    @FilterWith(SecureFilter.class)
+    @FilterWith({SecureFilter.class, Hosting.class})
     public Result play(Context context){
         Result res = Results.html();
         gameService.play(context, res);
@@ -49,5 +48,11 @@ public class GameController {
         Result res = Results.html();
         gameService.resetDeckAndCommit(res);
         return res;
+    }
+
+    @FilterWith(SecureFilter.class)
+    public Result newGame(Context context){
+        gameService.newGame(context);
+        return Results.redirect(router.getReverseRoute(GameController.class, "play"));
     }
 }
