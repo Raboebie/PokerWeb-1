@@ -77,4 +77,14 @@ public class DBGameRepository extends DBBaseRepository<Game>{
         }
         return returnable;
     }
+
+    @UnitOfWork
+    public Game getGameByGameID(String id) {
+        try {
+            return (Game) getEntityManager().createQuery("SELECT g FROM Game g WHERE game_id = :game_id").setParameter("game_id", Integer.parseInt(id)).getSingleResult();
+        }
+        catch(javax.persistence.NoResultException ex){
+            return null;
+        }
+    }
 }

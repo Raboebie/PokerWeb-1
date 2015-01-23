@@ -5,7 +5,12 @@ import Filters.SecureFilter;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import ninja.*;
+import ninja.params.PathParam;
 import services.GameService;
+import services.LobbyService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Chris on 1/23/2015.
@@ -23,9 +28,9 @@ public class GameController {
     }
 
     @FilterWith(SecureFilter.class)
-    public Result playlobby(Context context){
+    public Result playlobby(Context context, @PathParam("id") String game_id){
         Result res = Results.html();
-        //gameService.play(context, res);
+        gameService.playLobby(context, res, game_id);
         return res;
     }
 
@@ -44,9 +49,9 @@ public class GameController {
     }
 
     @FilterWith(SecureFilter.class)
-    public Result resetDeckAndCommit(){
+    public Result resetDeckAndCommit(Context context){
         Result res = Results.html();
-        gameService.resetDeckAndCommit(res);
+        gameService.resetDeckAndCommit(context, res);
         return res;
     }
 
@@ -54,5 +59,11 @@ public class GameController {
     public Result newGame(Context context){
         gameService.newGame(context);
         return Results.redirect(router.getReverseRoute(GameController.class, "play"));
+    }
+
+    @FilterWith(SecureFilter.class)
+    public Result addToGame(Context context, @PathParam("id") String game_id){
+        gameService.addToGame(context.getSession().get("username"), game_id);
+        return Results.redirect("/play/" + game_id + "/lobby");
     }
 }

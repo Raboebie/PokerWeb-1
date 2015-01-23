@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import model.cards.Hand;
 import model.deck.Deck;
+import ninja.Context;
 import repositories.db.structure.Winner;
 import repositories.db.repositories.DBGameRepository;
 import repositories.db.repositories.DBGame_UserRepository;
@@ -59,15 +60,10 @@ public class GameRepository {
         return user;
     }
 
-    public void commitGame(String gamename, List<String> users, List<String> hands){
-        Game newGame = new Game();
-        newGame.setGame_name(gamename);
-        newGame.setGame_date(new Date());
-        dbGameRepository.persist(newGame);
-
+    public void commitGame(Game game, List<String> users, List<String> hands){
         for(int i = 0; i < users.size(); i++) {
             Game_User_ID game_user_id = new Game_User_ID();
-            game_user_id.setGame_id(newGame.getGame_id());
+            game_user_id.setGame_id(game.getGame_id());
             game_user_id.setUser_name(users.get(i));
 
             Game_User game_user = new Game_User();
@@ -119,7 +115,9 @@ public class GameRepository {
         return dbGameRepository.getAllUnfinishedGames();
     }
 
-
+    public Game getGameByID(String id) {
+        return dbGameRepository.getGameByGameID(id);
+    }
 
 
 

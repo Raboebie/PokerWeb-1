@@ -19,7 +19,6 @@ public class Hosting implements Filter {
     public Result filter(FilterChain filterChain, Context context) {
         List<Game> games = gameRepository.getAllUnfinishedGames();
         for(Game game: games){
-            System.out.println("play/" + game.getGame_id() + "/lobby");
             if(game.getGame_owner().equals(context.getSession().get("username"))) return Results.redirect("/play/" + game.getGame_id() + "/lobby");
         }
         return filterChain.next(context);

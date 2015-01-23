@@ -30,6 +30,8 @@ public class GameService {
     @Inject private GameRepository gameRepository;
     @Inject private Router router;
 
+    private List<LobbyService> lobbyServices = new ArrayList<>();
+
     private String insertGameName = "";
     private List<String> insertUsers = new ArrayList<>();
     private List<String> insertHands = new ArrayList<>();
@@ -42,14 +44,14 @@ public class GameService {
         return deck.evaluation(hand);
     }
 
-    public void resetDeckAndCommit(Result res){
+    public void resetDeckAndCommit(Context context, Result res){
         List<Hand> hand = new ArrayList<>();
         for(String h : insertHands){
             hand.add(new Hand(h));
         }
 
         //Game doesn't exist
-        gameRepository.commitGame(insertGameName, insertUsers, insertHands);
+        gameRepository.commitGame(gameRepository.getGameByID(context.getParameter("gameid")), insertUsers, insertHands);
 
         res.render("Heading", "Game Completed:");
         res.render("Message",  deck.determineWinner(hand, insertUsers));
@@ -78,11 +80,7 @@ public class GameService {
     }
 
     public void play(Context context, Result res){
-        List<Game> unfinishedGames = gameRepository.getAllUnfinishedGames();
-        List<Game> activeGames = new ArrayList<>();
-        for(Game game : unfinishedGames){
-            activeGames.add(game);
-        }
+        List<Game> activeGames = getUnfinishedGames();
         res.render("games", activeGames);
     }
 
@@ -108,5 +106,38 @@ public class GameService {
         res.render("winners", gameRepository.getAllWinners());
     }
 
+    public void playLobby(Context context, Result res, String game_id) {
+        LobbyService current = getLobbyByGameID(game_id);
+        res.render("users", current.getUsers());
+        res.render("username", context.getSession().get("username"));
+        res.render("owner", current.getGame().getGame_owner());
+        res.render("gameid", game_id);
+    }
 
+    public void addToGame(String username, String game_id){
+        LobbyService current = getLobbyByGameID(game_id);
+        current.addUser(username);
+    }
+
+    public List<Game> getUnfinishedGames(){
+        List<Game> unfinishedGames = gameRepository.getAllUnfinishedGames();
+        List<Game> activeGames = new ArrayList<>();
+        for(Game game : unfinishedGames){
+            activeGames.add(game);
+            if(!LobbyService.containsGame(lobbyServices, game.getGame_id())) {
+                lobbyServices.add(new LobbyService(game));
+            }
+        }
+        return unfinishedGames;
+    }
+
+    public LobbyService getLobbyByGameID(String ID){
+        getUnfinishedGames();
+        for(LobbyService lobby: lobbyServices){
+            if(lobby.gameID() == Integer.parseInt(ID)){
+                return lobby;
+            }
+        }
+        return null;
+    }
 }

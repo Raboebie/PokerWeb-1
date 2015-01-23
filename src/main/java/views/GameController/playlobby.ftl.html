@@ -1,0 +1,48 @@
+<#import "../layout/defaultLayout.ftl.html" as layout>
+    <@layout.myLayout "Home page">
+
+    <h1>Current Lobby:</h1>
+    <input type="text" id="gameid" hidden="hidden" value="${gameid}">
+    <div id="userlist" class="list-group" style="width:30%">
+        <#assign x = 0>
+        <#list users as user>
+            <#if username == user>
+                <a id="user${x}" class="list-group-item active">${user}</a>
+            <#else>
+                <a id="user${x}"class="list-group-item">${user}</a>
+            </#if>
+            <#assign x = x + 1>
+        </#list>
+    </div>
+
+    <#if username == owner>
+        <button id="deal" class="btn btn-danger">Deal</button>
+    </#if>
+
+    <div id="cardcontainer">
+        <div id="conclusion"></div>
+        <table class="table table-striped table-bordered" id="cardtable">
+            <thead>
+            <tr>
+                <th>Player</th>
+                <th>Hand</th>
+                <th>Evaluation</th>
+            </tr>
+            </thead>
+            <tbody id="cards">
+
+            </tbody>
+        </table>
+    </div>
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $("#actions").attr("href", "/logout");
+            $("#actions").html("Logout");
+        });
+        $("#play").parent().addClass("active");
+    </script>
+
+    <script type="text/javascript" src="/assets/js/playlobby.js"></script>
+
+</@layout.myLayout>
