@@ -17,6 +17,8 @@ import java.util.List;
 public class DBGameRepository extends DBBaseRepository<Game>{
     @Inject DBGame_UserRepository dbGame_userRepository;
 
+    List<Game> retrievedByID = new ArrayList<>();
+
     @UnitOfWork
     public Game getGameByName(String name){
         try {

@@ -18,9 +18,9 @@ function ajaxCeption(count){
         $.ajax({
             type:"POST",
             url:"/cards",
-            data:{username:$.trim($("#user" + count).text()), gamename:$("#game_name").val()},
+            data:{username:$.trim($("#user" + count).text()), gamename:$("#game_name").val(), gameid:$("#gameid").val()},
             success:function(data){
-                $("#cards").append(data);
+                //$("#cards").append(data);
                 ajaxCeption(count + 1);
             }
         });
@@ -32,7 +32,8 @@ function ajaxCeption(count){
             url:"/resetDeck",
             data:{gameid:$("#gameid").val()},
             success:function(data){
-                 $("#conclusion").prepend(data);
+                 //$("#conclusion").prepend(data);
+                 window.location = "/play/1/history";
             }
         });
     }

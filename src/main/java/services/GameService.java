@@ -16,9 +16,7 @@ import repositories.db.structure.Game_User;
 import repositories.db.structure.Game_User_ID;
 import repositories.db.structure.User;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Chris on 1/12/2015.
@@ -31,12 +29,19 @@ public class GameService {
     @Inject private Router router;
 
     private List<LobbyService> lobbyServices = new ArrayList<>();
+    private Map<Integer, Deck> gameDeckMap = new HashMap<>();
+    private Map<Integer, List<String>> gameUserMap = new HashMap<>();
+    private Map<Integer, List<String>> gameHandMap = new HashMap<>();
 
-    private String insertGameName = "";
-    private List<String> insertUsers = new ArrayList<>();
-    private List<String> insertHands = new ArrayList<>();
+    //private List<Game_User> insertGameUsers = new ArrayList<>();
+    //private List<String> insertUsers = new ArrayList<>();
+    //private List<String> insertHands = new ArrayList<>();
 
     private Hand dealHand(){
+        return deck.dealHand();
+    }
+
+    private Hand dealHand(Deck deck){
         return deck.dealHand();
     }
 
@@ -45,30 +50,43 @@ public class GameService {
     }
 
     public void resetDeckAndCommit(Context context, Result res){
+        Game game = gameRepository.getGameByID(context.getParameter("gameid"));
+        if(game == null) System.out.println("Hier Kom Groot Kak v2");
+
+        //System.out.println(gameHandMap.get(game).size());
         List<Hand> hand = new ArrayList<>();
-        for(String h : insertHands){
+        for(String h : gameHandMap.get(game.getGame_id())){
             hand.add(new Hand(h));
         }
 
-        //Game doesn't exist
-        gameRepository.commitGame(gameRepository.getGameByID(context.getParameter("gameid")), insertUsers, insertHands);
+        gameRepository.commitGame(gameRepository.getGameByID(context.getParameter("gameid")), gameUserMap.get(game.getGame_id()), gameHandMap.get(game.getGame_id()));
 
         res.render("Heading", "Game Completed:");
-        res.render("Message",  deck.determineWinner(hand, insertUsers));
-
-        insertUsers.clear();
-        insertHands.clear();
-        insertGameName = "";
+        res.render("Message",  deck.determineWinner(hand, gameUserMap.get(game.getGame_id())));
 
         deck.resetDeck();
     }
 
     public void populateCards(Context context, Result res){
-        Hand dealtHand = dealHand();
-        insertGameName = context.getParameter("gamename");
-        insertUsers.add(context.getParameter("username"));
-        insertHands.add(dealtHand.toString());
+        Game game = gameRepository.getGameByID(context.getParameter("gameid"));
+        if(game == null) System.out.println("Hier Kom Groot Kak");
 
+        if(!gameDeckMap.containsKey(game)){
+            gameDeckMap.put(game.getGame_id(), new Deck());
+        }
+
+        if(!gameUserMap.containsKey(game)) {
+            gameUserMap.put(game.getGame_id(), new ArrayList<>());
+        }
+
+        if(!gameHandMap.containsKey(game)){
+            gameHandMap.put(game.getGame_id(), new ArrayList<>());
+        }
+
+        Hand dealtHand = dealHand(gameDeckMap.get(game.getGame_id()));
+
+        gameUserMap.get(game.getGame_id()).add(context.getParameter("username"));
+        gameHandMap.get(game.getGame_id()).add(dealtHand.toString());
 
         res.render("card0", dealtHand.getCards().get(0).toString());
         res.render("card1", dealtHand.getCards().get(1).toString());
