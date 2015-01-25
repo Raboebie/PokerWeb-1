@@ -71,15 +71,15 @@ public class GameService {
         Game game = gameRepository.getGameByID(context.getParameter("gameid"));
         if(game == null) System.out.println("Hier Kom Groot Kak");
 
-        if(!gameDeckMap.containsKey(game)){
+        if(!gameDeckMap.containsKey(game.getGame_id())){
             gameDeckMap.put(game.getGame_id(), new Deck());
         }
 
-        if(!gameUserMap.containsKey(game)) {
+        if(!gameUserMap.containsKey(game.getGame_id())) {
             gameUserMap.put(game.getGame_id(), new ArrayList<>());
         }
 
-        if(!gameHandMap.containsKey(game)){
+        if(!gameHandMap.containsKey(game.getGame_id())){
             gameHandMap.put(game.getGame_id(), new ArrayList<>());
         }
 
