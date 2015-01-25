@@ -102,6 +102,12 @@ public class GameService {
         res.render("games", activeGames);
     }
 
+    public void playhistory(Context context, Result res, String GameID){
+        res.render("gameusers", gameRepository.getAllGame_Users());
+        res.render("games", gameRepository.getAllGamesByIDOrderedByDate(GameID));
+        res.render("winners", gameRepository.getAllWinners());
+    }
+
     public void newGame(Context context) {
         Game game = new Game();
         game.setGame_name(context.getParameter("newgame"));

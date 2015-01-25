@@ -89,4 +89,9 @@ public class DBGameRepository extends DBBaseRepository<Game>{
             return null;
         }
     }
+
+    @UnitOfWork
+    public List<Game> getAllGamesByIDOrderedByDate(String gameID) {
+        return getEntityManager().createQuery("SELECT g FROM Game g WHERE game_id = :game_id").setParameter("game_id", Integer.parseInt(gameID)).getResultList();
+    }
 }

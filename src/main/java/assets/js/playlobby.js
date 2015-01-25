@@ -4,7 +4,7 @@ $(document).ready(function(){
     $("#cardtable").hide();
 
     $("#deal").click(function(){
-    alert($("#gameid").val());
+        //alert($("#gameid").val());
         $("#cardtable").show();
         $("#cards").html("");
         $("#conclusion").html("");
@@ -33,7 +33,7 @@ function ajaxCeption(count){
             data:{gameid:$("#gameid").val()},
             success:function(data){
                  //$("#conclusion").prepend(data);
-                 window.location = "/play/1/history";
+                 window.location = "/play/" + $("#gameid").val()  + "/history";
             }
         });
     }

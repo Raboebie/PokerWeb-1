@@ -35,9 +35,9 @@ public class GameController {
     }
 
     @FilterWith(SecureFilter.class)
-    public Result playhistory(Context context){
+    public Result playhistory(Context context, @PathParam("id") String game_id){
         Result res = Results.html();
-        gameService.play(context, res);
+        gameService.playhistory(context, res, game_id);
         return res;
     }
 
