@@ -2,21 +2,14 @@ package services;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import controllers.GameController;
-import model.cards.Card;
 import model.cards.Hand;
 import model.deck.Deck;
 import ninja.*;
 import org.h2.mvstore.ConcurrentArrayList;
 import repositories.GameRepository;
-import repositories.db.repositories.DBGameRepository;
-import repositories.db.repositories.DBGame_UserRepository;
-import repositories.db.repositories.DBUserRepository;
 import repositories.db.structure.Game;
-import repositories.db.structure.Game_User;
-import repositories.db.structure.Game_User_ID;
-import repositories.db.structure.User;
 
+import java.time.Instant;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -34,6 +27,8 @@ public class GameService {
     private volatile ConcurrentHashMap<Integer, Deck> gameDeckMap = new ConcurrentHashMap<>();
     private volatile ConcurrentHashMap<Integer, List<String>> gameUserMap = new ConcurrentHashMap<>();
     private volatile ConcurrentHashMap<Integer, List<String>> gameHandMap = new ConcurrentHashMap<>();
+
+    private volatile Instant lastNewGameUpdate = Instant.now();
 
     //private List<Game_User> insertGameUsers = new ArrayList<>();
     //private List<String> insertUsers = new ArrayList<>();
@@ -80,6 +75,8 @@ public class GameService {
         gameDeckMap.remove(game.getGame_id());
         gameHandMap.remove(game.getGame_id());
         gameUserMap.remove(game.getGame_id());
+
+        lastNewGameUpdate = Instant.now();
     }
 
     public void populateCards(Context context, Result res){
@@ -129,6 +126,7 @@ public class GameService {
         game.setGame_date(new Date());
         game.setGame_owner(context.getSession().get("username"));
         gameRepository.newGame(game);
+        lastNewGameUpdate = Instant.now();
     }
 
     public void viewGames(Result res){
@@ -191,5 +189,20 @@ public class GameService {
             }
         }
         return null;
+    }
+
+    public void getGameList(Context context, Result res) {
+        Instant lastNewGameUpdate = this.lastNewGameUpdate;
+
+        while(lastNewGameUpdate == this.lastNewGameUpdate){
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        List<Game> activeGames = getUnfinishedGames();
+        res.render("games", activeGames);
     }
 }

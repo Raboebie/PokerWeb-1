@@ -53,7 +53,7 @@ public class GameController {
     }
 
     @FilterWith(SecureFilter.class)
-    public Result newGame(Context context){
+    public synchronized Result newGame(Context context){
         gameService.newGame(context);
         return Results.redirect(router.getReverseRoute(GameController.class, "play"));
     }
@@ -62,5 +62,12 @@ public class GameController {
     public Result addToGame(Context context, @PathParam("id") String game_id){
         gameService.addToGame(context.getSession().get("username"), game_id);
         return Results.redirect("/play/" + game_id + "/lobby");
+    }
+
+    @FilterWith(SecureFilter.class)
+    public Result gamelist(Context context){
+        Result res = Results.html();
+        gameService.getGameList(context, res);
+        return res;
     }
 }
