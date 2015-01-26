@@ -5,66 +5,7 @@
 
     <br>
 
-    <#list games as game>
-        <div class="panel panel-primary">
-            <div class="panel-heading">
-                <h3 class="panel-title">Game</h3>
-            </div>
-
-            <div class="panel-body">
-                <table class="table table-bordered">
-                    <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Date</th>
-                        <th>Winner</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>${game.game_id}</td>
-                        <td>${game.game_name}</td>
-                        <td>Date: ${game.game_date}</td>
-                        <td>
-                            <#list winners as winner>
-                                <#if winner.game_id == game.game_id>
-                                    ${winner.name}
-                                </#if>
-                            </#list>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-                <table class="table table-striped table-bordered">
-                    <thead>
-                    <tr>
-                        <th>Player</th>
-                        <th>Hand</th>
-                        <th>Evaluation</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <#list gameusers as gameuser>
-                        <#if gameuser.game.game_id == game.game_id>
-                            <tr>
-                                <td>${gameuser.user.user_name}</td>
-                                <td>
-                                    <img height="80px" src="/assets/images/cards/${gameuser.hand[0]}${gameuser.hand[1]}.png">
-                                    <img height="80px" src="/assets/images/cards/${gameuser.hand[3]}${gameuser.hand[4]}.png">
-                                    <img height="80px" src="/assets/images/cards/${gameuser.hand[6]}${gameuser.hand[7]}.png">
-                                    <img height="80px" src="/assets/images/cards/${gameuser.hand[9]}${gameuser.hand[10]}.png">
-                                    <img height="80px" src="/assets/images/cards/${gameuser.hand[12]}${gameuser.hand[13]}.png">
-                                </td>
-                                <td>${gameuser.evaluation}</td>
-                            </tr>
-                        </#if>
-                    </#list>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </#list>
+    <#include "../Fragments/viewgames.ftl.html">
 
     <script type="text/javascript">
         $("#viewgamesbyuser").parent().addClass("active");

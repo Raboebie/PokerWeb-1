@@ -1,9 +1,11 @@
 package services;
 
+import org.h2.mvstore.ConcurrentArrayList;
 import repositories.db.structure.Game;
 import repositories.db.structure.User;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -42,9 +44,11 @@ public class LobbyService {
             users.add(user);
     }
 
-    public static boolean containsGame(List<LobbyService> lobbyServices, int id){
-        for(LobbyService lobbyService : lobbyServices)
-            if(lobbyService.getGame().getGame_id() == id) return true;
+    public static boolean containsGame(ConcurrentArrayList<LobbyService> lobbyServices, int id){
+        for(Iterator<LobbyService> i = lobbyServices.iterator(); i.hasNext(); ) {
+            LobbyService lobbyService = i.next();
+            if (lobbyService.getGame().getGame_id() == id) return true;
+        }
         return false;
     }
 }

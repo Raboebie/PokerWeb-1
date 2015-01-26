@@ -7,6 +7,7 @@ import model.cards.Card;
 import model.cards.Hand;
 import model.deck.Deck;
 import ninja.*;
+import org.h2.mvstore.ConcurrentArrayList;
 import repositories.GameRepository;
 import repositories.db.repositories.DBGameRepository;
 import repositories.db.repositories.DBGame_UserRepository;
@@ -17,6 +18,7 @@ import repositories.db.structure.Game_User_ID;
 import repositories.db.structure.User;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by Chris on 1/12/2015.
@@ -28,10 +30,10 @@ public class GameService {
     @Inject private GameRepository gameRepository;
     @Inject private Router router;
 
-    private List<LobbyService> lobbyServices = new ArrayList<>();
-    private Map<Integer, Deck> gameDeckMap = new HashMap<>();
-    private Map<Integer, List<String>> gameUserMap = new HashMap<>();
-    private Map<Integer, List<String>> gameHandMap = new HashMap<>();
+    private volatile ConcurrentArrayList<LobbyService> lobbyServices = new ConcurrentArrayList<>();
+    private volatile ConcurrentHashMap<Integer, Deck> gameDeckMap = new ConcurrentHashMap<>();
+    private volatile ConcurrentHashMap<Integer, List<String>> gameUserMap = new ConcurrentHashMap<>();
+    private volatile ConcurrentHashMap<Integer, List<String>> gameHandMap = new ConcurrentHashMap<>();
 
     //private List<Game_User> insertGameUsers = new ArrayList<>();
     //private List<String> insertUsers = new ArrayList<>();
@@ -62,7 +64,8 @@ public class GameService {
         gameRepository.commitGame(gameRepository.getGameByID(context.getParameter("gameid")), gameUserMap.get(game.getGame_id()), gameHandMap.get(game.getGame_id()));
 
         LobbyService delete = null;
-        for(LobbyService lobbyService : lobbyServices){
+        for(Iterator<LobbyService> i = lobbyServices.iterator(); i.hasNext(); ) {
+            LobbyService lobbyService = i.next();
             if(lobbyService.gameID() == game.getGame_id()){
                 delete = lobbyService;
             }
@@ -72,7 +75,7 @@ public class GameService {
         res.render("Message",  deck.determineWinner(hand, gameUserMap.get(game.getGame_id())));
 
         if(delete != null)
-            lobbyServices.remove(delete);
+            lobbyServices.removeFirst(delete);
 
         gameDeckMap.remove(game.getGame_id());
         gameHandMap.remove(game.getGame_id());
@@ -168,17 +171,21 @@ public class GameService {
     public Map<String, Integer> playingUsers(){
         getUnfinishedGames();
         Map<String, Integer> playingUsers = new HashMap<>();
-        for(LobbyService lobbyService : lobbyServices){
+
+        for(Iterator<LobbyService> i = lobbyServices.iterator(); i.hasNext(); ){
+            LobbyService lobbyService = i.next();
             for(String user : lobbyService.getUsers()){
                 playingUsers.put(user, lobbyService.gameID());
             }
         }
+
         return playingUsers;
     }
 
     public LobbyService getLobbyByGameID(String ID){
         getUnfinishedGames();
-        for(LobbyService lobby: lobbyServices){
+        for(Iterator<LobbyService> i = lobbyServices.iterator(); i.hasNext(); ){
+            LobbyService lobby = i.next();
             if(lobby.gameID() == Integer.parseInt(ID)){
                 return lobby;
             }
