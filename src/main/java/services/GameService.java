@@ -32,10 +32,6 @@ public class GameService {
     private volatile Instant lastNewGameUpdate = Instant.now();
     private volatile ConcurrentHashMap<Integer, Instant> gameInstantMap = new ConcurrentHashMap<>();
 
-    //private List<Game_User> insertGameUsers = new ArrayList<>();
-    //private List<String> insertUsers = new ArrayList<>();
-    //private List<String> insertHands = new ArrayList<>();
-
     private Hand dealHand(){
         return deck.dealHand();
     }

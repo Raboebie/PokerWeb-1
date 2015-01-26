@@ -46,7 +46,7 @@ public class GameController {
     }
 
     @FilterWith(SecureFilter.class)
-    public Result resetDeckAndCommit(Context context){
+    public synchronized Result resetDeckAndCommit(Context context){
         Result res = Results.html();
         gameService.resetDeckAndCommit(context, res);
         return res;
@@ -59,7 +59,7 @@ public class GameController {
     }
 
     @FilterWith(SecureFilter.class)
-    public Result addToGame(Context context, @PathParam("id") String game_id){
+    public synchronized Result addToGame(Context context, @PathParam("id") String game_id){
         gameService.addToGame(context.getSession().get("username"), game_id);
         return Results.redirect("/play/" + game_id + "/lobby");
     }
