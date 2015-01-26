@@ -24,14 +24,14 @@ public class GameController {
         return res;
     }
 
-    @FilterWith({SecureFilter.class, Playing.class, GameDone.class})
+    @FilterWith({SecureFilter.class, GameDone.class})
     public Result playlobby(Context context, @PathParam("id") String game_id){
         Result res = Results.html();
         gameService.playLobby(context, res, game_id);
         return res;
     }
 
-    @FilterWith({SecureFilter.class, Playing.class})
+    @FilterWith({SecureFilter.class})
     public Result playhistory(Context context, @PathParam("id") String game_id){
         Result res = Results.html();
         gameService.playhistory(context, res, game_id);

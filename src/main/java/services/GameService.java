@@ -155,9 +155,7 @@ public class GameService {
 
     public List<Game> getUnfinishedGames(){
         List<Game> unfinishedGames = gameRepository.getAllUnfinishedGames();
-        List<Game> activeGames = new ArrayList<>();
         for(Game game : unfinishedGames){
-            activeGames.add(game);
             if(!LobbyService.containsGame(lobbyServices, game.getGame_id())) {
                 lobbyServices.add(new LobbyService(game));
             }
