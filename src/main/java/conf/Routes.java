@@ -42,6 +42,7 @@ public class Routes implements ApplicationRoutes {
         router.GET().route("/getgamelist").with(GameController.class, "gamelist");
         router.GET().route("/play/{id}/lobby").with(GameController.class, "playlobby");
         router.GET().route("/play/{id}/history").with(GameController.class, "playhistory");
+        router.GET().route("/play/{id}/getplayers").with(GameController.class, "getplayers");
 
         //Helpers
         router.POST().route("/cards").with(GameController.class, "cards");

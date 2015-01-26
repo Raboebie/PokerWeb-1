@@ -29,6 +29,7 @@ public class GameService {
     private volatile ConcurrentHashMap<Integer, List<String>> gameHandMap = new ConcurrentHashMap<>();
 
     private volatile Instant lastNewGameUpdate = Instant.now();
+    private volatile ConcurrentHashMap<Integer, Instant> gameInstantMap = new ConcurrentHashMap<>();
 
     //private List<Game_User> insertGameUsers = new ArrayList<>();
     //private List<String> insertUsers = new ArrayList<>();
@@ -126,7 +127,9 @@ public class GameService {
         game.setGame_date(new Date());
         game.setGame_owner(context.getSession().get("username"));
         gameRepository.newGame(game);
+
         lastNewGameUpdate = Instant.now();
+        gameInstantMap.put(game.getGame_id(), Instant.now());
     }
 
     public void viewGames(Result res){
@@ -152,6 +155,7 @@ public class GameService {
     }
 
     public void addToGame(String username, String game_id){
+        gameInstantMap.put(Integer.parseInt(game_id), Instant.now());
         LobbyService current = getLobbyByGameID(game_id);
         current.addUser(username);
     }
@@ -204,5 +208,21 @@ public class GameService {
 
         List<Game> activeGames = getUnfinishedGames();
         res.render("games", activeGames);
+    }
+
+    public void getPlayers(Context context, Result res, String game_id) {
+        Instant lastNewGameUpdate = gameInstantMap.get(Integer.parseInt(game_id));
+
+        while(lastNewGameUpdate == gameInstantMap.get(Integer.parseInt(game_id))){
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        LobbyService current = getLobbyByGameID(game_id);
+        res.render("users", current.getUsers());
+        res.render("username", context.getSession().get("username"));
     }
 }

@@ -1,17 +1,23 @@
 var numberOfCeptions = 0;
 
 $(document).ready(function(){
-    $("#cardtable").hide();
-
+    getUserList();
     $("#deal").click(function(){
-        //alert($("#gameid").val());
-        //$("#cardtable").show();
-        //$("#cards").html("");
-        //$("#conclusion").html("");
         numberOfCeptions = $(".list-group-item").length;
         ajaxCeption(0);
     });
 });
+
+function getUserList(){
+    $.ajax({
+        type:"GET",
+        url:"/play/" + $("#gameid").val() + "/getplayers",
+        success:function(data){
+            $("#userlist").html(data);
+            getUserList();
+        }
+    });
+}
 
 function ajaxCeption(count){
     if(count < numberOfCeptions){
@@ -20,7 +26,6 @@ function ajaxCeption(count){
             url:"/cards",
             data:{username:$.trim($("#user" + count).text()), gamename:$("#game_name").val(), gameid:$("#gameid").val()},
             success:function(data){
-                //$("#cards").append(data);
                 ajaxCeption(count + 1);
             }
         });
@@ -32,7 +37,6 @@ function ajaxCeption(count){
             url:"/resetDeck",
             data:{gameid:$("#gameid").val()},
             success:function(data){
-                 //$("#conclusion").prepend(data);
                  window.location = "/play/" + $("#gameid").val()  + "/history";
             }
         });

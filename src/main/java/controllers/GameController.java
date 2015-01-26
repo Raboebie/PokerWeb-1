@@ -70,4 +70,11 @@ public class GameController {
         gameService.getGameList(context, res);
         return res;
     }
+
+    @FilterWith(SecureFilter.class)
+    public Result getplayers(Context context, @PathParam("id") String game_id){
+        Result res = Results.html();
+        gameService.getPlayers(context, res, game_id);
+        return res;
+    }
 }
