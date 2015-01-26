@@ -29,7 +29,6 @@ public class Playing implements Filter {
         }
 
         Map<String, Integer> playingUsers = gameService.playingUsers();
-        System.out.println(playingUsers);
         if(playingUsers.get(context.getSession().get("username")) != null){
             return Results.redirect("/play/" + playingUsers.get(context.getSession().get("username")) + "/lobby");
         }
