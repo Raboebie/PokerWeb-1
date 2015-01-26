@@ -12,6 +12,7 @@ import repositories.db.structure.Game;
 import java.time.Instant;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 /**
  * Created by Chris on 1/12/2015.
@@ -78,6 +79,8 @@ public class GameService {
         gameUserMap.remove(game.getGame_id());
 
         lastNewGameUpdate = Instant.now();
+
+        gameInstantMap.put(game.getGame_id(), Instant.now());
     }
 
     public void populateCards(Context context, Result res){
@@ -152,6 +155,7 @@ public class GameService {
         res.render("username", context.getSession().get("username"));
         res.render("owner", current.getGame().getGame_owner());
         res.render("gameid", game_id);
+        res.render("redirect", false);
     }
 
     public void addToGame(String username, String game_id){
@@ -221,8 +225,19 @@ public class GameService {
             }
         }
 
-        LobbyService current = getLobbyByGameID(game_id);
-        res.render("users", current.getUsers());
-        res.render("username", context.getSession().get("username"));
+        List<Integer> gameids = getUnfinishedGames().stream().map(g -> g.getGame_id()).collect(Collectors.toList());
+        if(!gameids.contains(Integer.parseInt(game_id))){
+            res.render("users", new ArrayList<>());
+            res.render("username", "");
+            res.render("gameid", game_id);
+            res.render("redirect", true);
+        }
+        else{
+            LobbyService current = getLobbyByGameID(game_id);
+            res.render("users", current.getUsers());
+            res.render("username", context.getSession().get("username"));
+            res.render("gameid", game_id);
+            res.render("redirect", false);
+        }
     }
 }

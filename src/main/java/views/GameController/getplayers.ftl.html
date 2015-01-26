@@ -7,3 +7,9 @@
         </#if>
         <#assign x = x + 1>
     </#list>
+
+    <#if redirect == true>
+        <script type="text/javascript">
+            window.location = "/play/${gameid}/history"
+        </script>
+    </#if>

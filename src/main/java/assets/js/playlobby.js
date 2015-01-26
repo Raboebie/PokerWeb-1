@@ -37,7 +37,7 @@ function ajaxCeption(count){
             url:"/resetDeck",
             data:{gameid:$("#gameid").val()},
             success:function(data){
-                 window.location = "/play/" + $("#gameid").val()  + "/history";
+                window.location = "/play/" + $("#gameid").val()  + "/history";
             }
         });
     }
