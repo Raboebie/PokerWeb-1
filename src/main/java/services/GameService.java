@@ -61,20 +61,22 @@ public class GameService {
 
         gameRepository.commitGame(gameRepository.getGameByID(context.getParameter("gameid")), gameUserMap.get(game.getGame_id()), gameHandMap.get(game.getGame_id()));
 
+        LobbyService delete = null;
         for(LobbyService lobbyService : lobbyServices){
             if(lobbyService.gameID() == game.getGame_id()){
-                lobbyServices.remove(lobbyService);
+                delete = lobbyService;
             }
         }
-
-        gameDeckMap.remove(game.getGame_id());
-        gameHandMap.remove(game.getGame_id());
-        gameUserMap.remove(game.getGame_id());
 
         res.render("Heading", "Game Completed:");
         res.render("Message",  deck.determineWinner(hand, gameUserMap.get(game.getGame_id())));
 
-        deck.resetDeck();
+        if(delete != null)
+            lobbyServices.remove(delete);
+
+        gameDeckMap.remove(game.getGame_id());
+        gameHandMap.remove(game.getGame_id());
+        gameUserMap.remove(game.getGame_id());
     }
 
     public void populateCards(Context context, Result res){

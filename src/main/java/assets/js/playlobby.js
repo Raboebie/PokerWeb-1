@@ -5,9 +5,9 @@ $(document).ready(function(){
 
     $("#deal").click(function(){
         //alert($("#gameid").val());
-        $("#cardtable").show();
-        $("#cards").html("");
-        $("#conclusion").html("");
+        //$("#cardtable").show();
+        //$("#cards").html("");
+        //$("#conclusion").html("");
         numberOfCeptions = $(".list-group-item").length;
         ajaxCeption(0);
     });
