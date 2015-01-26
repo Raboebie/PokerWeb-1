@@ -134,7 +134,7 @@ public class GameService {
     public void viewGames(Result res){
         //res.render("rows", gameRepository.getAllGamesInRows());
         res.render("gameusers", gameRepository.getAllGame_Users());
-        res.render("games", gameRepository.getAllGamesOrderedByDate());
+        res.render("games", gameRepository.getAllFinishedGamesOrderedByDate());
         res.render("winners", gameRepository.getAllWinners());
     }
 

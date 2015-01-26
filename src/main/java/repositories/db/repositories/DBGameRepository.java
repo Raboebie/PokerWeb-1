@@ -94,4 +94,16 @@ public class DBGameRepository extends DBBaseRepository<Game>{
     public List<Game> getAllGamesByIDOrderedByDate(String gameID) {
         return getEntityManager().createQuery("SELECT g FROM Game g WHERE game_id = :game_id").setParameter("game_id", Integer.parseInt(gameID)).getResultList();
     }
+
+    @UnitOfWork
+    public List<Game> getAllFinishedGamesOrderedByDate() {
+        List<Game> all = getEntityManager().createQuery("SELECT g FROM Game g ORDER BY game_date DESC").getResultList();
+        List<Game> returnable = new ArrayList<>();
+        for(Game game : all){
+            if(game.getGameUserList().size() != 0){
+                returnable.add(game);
+            }
+        }
+        return returnable;
+    }
 }

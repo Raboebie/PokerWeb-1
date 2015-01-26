@@ -107,6 +107,10 @@ public class GameRepository {
         return dbGameRepository.getAllGamesOrderedByDate();
     }
 
+    public List<Game> getAllFinishedGamesOrderedByDate() {
+        return dbGameRepository.getAllFinishedGamesOrderedByDate();
+    }
+
     public List<Game> getAllGamesByIDOrderedByDate(String gameID){
         return dbGameRepository.getAllGamesByIDOrderedByDate(gameID);
     }

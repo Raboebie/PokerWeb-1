@@ -29,7 +29,19 @@
                 </tr>
                 </tbody>
             </table>
-            <table class="table table-striped table-bordered">
+
+            <script type="text/javascript">
+                $(document).ready(function(){
+                    $("#game${game.game_id}").hide();
+                    $("#game${game.game_id}btn").click(function(){
+                        $("#game${game.game_id}").show();
+                        $(this).hide();
+                    });
+                });
+            </script>
+
+            <button id="game${game.game_id}btn" class="btn btn-warning">Show Cards</button>
+            <table class="table table-striped table-bordered" id="game${game.game_id}">
                 <thead>
                 <tr>
                     <th>Player</th>
