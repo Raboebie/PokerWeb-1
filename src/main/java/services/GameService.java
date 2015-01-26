@@ -61,6 +61,16 @@ public class GameService {
 
         gameRepository.commitGame(gameRepository.getGameByID(context.getParameter("gameid")), gameUserMap.get(game.getGame_id()), gameHandMap.get(game.getGame_id()));
 
+        for(LobbyService lobbyService : lobbyServices){
+            if(lobbyService.gameID() == game.getGame_id()){
+                lobbyServices.remove(lobbyService);
+            }
+        }
+
+        gameDeckMap.remove(game.getGame_id());
+        gameHandMap.remove(game.getGame_id());
+        gameUserMap.remove(game.getGame_id());
+
         res.render("Heading", "Game Completed:");
         res.render("Message",  deck.determineWinner(hand, gameUserMap.get(game.getGame_id())));
 
@@ -153,6 +163,17 @@ public class GameService {
             }
         }
         return unfinishedGames;
+    }
+
+    public Map<String, Integer> playingUsers(){
+        getUnfinishedGames();
+        Map<String, Integer> playingUsers = new HashMap<>();
+        for(LobbyService lobbyService : lobbyServices){
+            for(String user : lobbyService.getUsers()){
+                playingUsers.put(user, lobbyService.gameID());
+            }
+        }
+        return playingUsers;
     }
 
     public LobbyService getLobbyByGameID(String ID){

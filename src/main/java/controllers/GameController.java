@@ -1,16 +1,13 @@
 package controllers;
 
-import Filters.Hosting;
+import Filters.GameDone;
+import Filters.Playing;
 import Filters.SecureFilter;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import ninja.*;
 import ninja.params.PathParam;
 import services.GameService;
-import services.LobbyService;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Chris on 1/23/2015.
@@ -20,21 +17,21 @@ public class GameController {
     @Inject private GameService gameService;
     @Inject private Router router;
 
-    @FilterWith({SecureFilter.class, Hosting.class})
+    @FilterWith({SecureFilter.class, Playing.class})
     public Result play(Context context){
         Result res = Results.html();
         gameService.play(context, res);
         return res;
     }
 
-    @FilterWith(SecureFilter.class)
+    @FilterWith({SecureFilter.class, Playing.class, GameDone.class})
     public Result playlobby(Context context, @PathParam("id") String game_id){
         Result res = Results.html();
         gameService.playLobby(context, res, game_id);
         return res;
     }
 
-    @FilterWith(SecureFilter.class)
+    @FilterWith({SecureFilter.class, Playing.class})
     public Result playhistory(Context context, @PathParam("id") String game_id){
         Result res = Results.html();
         gameService.playhistory(context, res, game_id);
