@@ -46,20 +46,20 @@ public class GameController {
     }
 
     @FilterWith(SecureFilter.class)
-    public synchronized Result resetDeckAndCommit(Context context){
+    public Result resetDeckAndCommit(Context context){
         Result res = Results.html();
         gameService.resetDeckAndCommit(context, res);
         return res;
     }
 
     @FilterWith(SecureFilter.class)
-    public synchronized Result newGame(Context context){
+    public Result newGame(Context context){
         gameService.newGame(context);
         return Results.redirect(router.getReverseRoute(GameController.class, "play"));
     }
 
     @FilterWith(SecureFilter.class)
-    public synchronized Result addToGame(Context context, @PathParam("id") String game_id){
+    public Result addToGame(Context context, @PathParam("id") String game_id){
         gameService.addToGame(context.getSession().get("username"), game_id);
         return Results.redirect("/play/" + game_id + "/lobby");
     }

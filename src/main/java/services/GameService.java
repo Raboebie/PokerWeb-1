@@ -44,9 +44,8 @@ public class GameService {
         return deck.evaluation(hand);
     }
 
-    public void resetDeckAndCommit(Context context, Result res){
+    public synchronized void resetDeckAndCommit(Context context, Result res){
         Game game = gameRepository.getGameByID(context.getParameter("gameid"));
-        if(game == null) System.out.println("Hier Kom Groot Kak v2");
 
         //System.out.println(gameHandMap.get(game).size());
         List<Hand> hand = new ArrayList<>();
@@ -81,7 +80,6 @@ public class GameService {
 
     public void populateCards(Context context, Result res){
         Game game = gameRepository.getGameByID(context.getParameter("gameid"));
-        if(game == null) System.out.println("Hier Kom Groot Kak");
 
         if(!gameDeckMap.containsKey(game.getGame_id())){
             gameDeckMap.put(game.getGame_id(), new Deck());
@@ -120,7 +118,7 @@ public class GameService {
         res.render("winners", gameRepository.getAllWinners());
     }
 
-    public void newGame(Context context) {
+    public synchronized void newGame(Context context) {
         Game game = new Game();
         game.setGame_name(context.getParameter("newgame"));
         game.setGame_date(new Date());
@@ -154,7 +152,7 @@ public class GameService {
         res.render("redirect", false);
     }
 
-    public void addToGame(String username, String game_id){
+    public synchronized void addToGame(String username, String game_id){
         gameInstantMap.put(Integer.parseInt(game_id), Instant.now());
         LobbyService current = getLobbyByGameID(game_id);
         current.addUser(username);
